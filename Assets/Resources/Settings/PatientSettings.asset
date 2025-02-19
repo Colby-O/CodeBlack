@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d1fe8cb2a8321ff87dde9ff81b44ae, type: 3}
+  m_Name: PatientSettings
+  m_EditorClassIdentifier: 
+  tickRate: 1
+  diabetesAttackChance: 300
+  diabetesAttackBloodSugarValue: 330
+  oxygenAttackChance: 500
+  oxygenDepletionRate: 1
+  oxygenMinValue: 20
+  oxygenDangerousLevel: 80
+  oxygenDeathValue: 52
+  hungerDepletionRate: 0.004
+  hungerCutoff: 0.7
+  bloodSugarHungerLow: 20
+  bloodSugarNormalValue: 120
+  bloodSugarRestorationRate: 18
+  bloodSugarMinRate: 0.1
+  bloodSugarMaxRate: 7
+  bloodSugarVariance: 0.15
+  bloodSugarRateChangeRate: 4
+  bloodSugarNormalValueChangeRate: 10
+  bloodSugarHeartDropRate: 1
+  bloodSugarDangerousLow: 80
+  bloodSugarDangerousHigh: 200
+  restingHeartRate: 85
+  eventProb: 0.05
+  caProb: 0.01
+  afProb: 0.5
+  vfProb: 0.5
+  blockProb: 0.5
+  achRate: 0.01
+  crpRate: 0.01
+  bnpRate: 0.1
+  tempRate: 0.1
+  achRateRand: 0.1
+  crpRateRand: 0.1
+  bnpRateRand: 1
+  tempRateRand: 0.1
