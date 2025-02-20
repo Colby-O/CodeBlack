@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PatientSettings
   m_EditorClassIdentifier: 
   tickRate: 1
-  diabetesAttackChance: 300
+  diabetesAttackChance: 430
   diabetesAttackBloodSugarValue: 330
   tooMuchInsulinHungerLevel: 0.2
   normalTemp: 37
@@ -22,12 +22,12 @@ MonoBehaviour:
   tempRecoverRate: 0.5
   tempDangerousLevel: 32
   tempDeadLevel: 25
-  oxygenAttackChance: 500
+  oxygenAttackChance: 850
   oxygenDepletionRate: 1
   oxygenMinValue: 20
-  oxygenDangerousLevel: 80
-  oxygenDeathValue: 52
-  hungerDepletionRate: 0.0024
+  oxygenDangerousLevel: 65
+  oxygenDeathValue: 30
+  hungerDepletionRate: 0.002
   hungerCutoff: 0.7
   bloodSugarHungerLow: 20
   bloodSugarNormalValue: 120
@@ -42,11 +42,11 @@ MonoBehaviour:
   bloodSugarDangerousHigh: 200
   restingHeartRateLow: 70
   restingHeartRateHigh: 130
-  eventProb: 0
-  caProb: 0.05
-  afProb: 0.05
-  vfProb: 0.05
-  blockProb: 0.05
+  eventProb: 0.001
+  caProb: 0.01
+  afProb: 0.01
+  vfProb: 0.01
+  blockProb: 0.01
   achRate: 0.01
   crpRate: 0.03
   bnpRate: 10
