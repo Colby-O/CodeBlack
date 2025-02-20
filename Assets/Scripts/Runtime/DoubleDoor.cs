@@ -11,7 +11,7 @@ namespace CodeBlack
         private Transform _pivot2;
         private bool _isOpen = false;
         private bool _inProgress = false;
-        private float _openSpeed = 1.5f;
+        [SerializeField] float _openSpeed = 1.5f;
 
         private void Awake()
         {
@@ -33,8 +33,9 @@ namespace CodeBlack
             return angle;
         }
         
-        private void Open(Transform from)
+        public void Open(Transform from)
         {
+            if (_isOpen) return;
             if (_inProgress) return;
             _isOpen = true;
             _inProgress = true;
@@ -70,8 +71,9 @@ namespace CodeBlack
             }
         }
 
-        private void Close()
+        public void Close()
         {
+            if (!_isOpen) return;
             if (_inProgress) return;
             _inProgress = true;
             _isOpen = false;

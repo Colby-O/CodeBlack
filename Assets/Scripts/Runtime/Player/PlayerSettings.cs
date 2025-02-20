@@ -22,6 +22,7 @@ namespace CodeBlack.Player
         public float walkingBackwardSpeed;
         public float walkingStrateSpeed;
         public float movementSmoothing;
+        public float runningModifyer;
         public float cartSpeed;
         public float cartTurnSpeed;
         public float cartSmoothing;

@@ -62,16 +62,19 @@ namespace CodeBlack.ECG
             _addJWave = jWave;
         }
 
+        public bool HasBlock() => _heartBlock > 0;
         public void SetBlock(int n)
         {
             _heartBlock = n;
         }
 
+        public bool HasAtrialFibrillation() => _atrialFibrillation;
         public void SetAtrialFibrillation(bool state)
         {
             _atrialFibrillation = state;
         }
 
+        public bool HasVentricularFibrillation() => _ventricularFibrillation;
         public void SetVentricularFibrillation(bool state)
         {
             _ventricularFibrillation = state;
@@ -85,6 +88,7 @@ namespace CodeBlack.ECG
             {
                 CauseCardiacArrest(false);
                 _patientMovement = 0;
+                _triggerSANode = true;
             }
         }
 
@@ -98,6 +102,15 @@ namespace CodeBlack.ECG
             return _heartBlock != 0;
         }
 
+        public bool IsAlive() => !_triggerCardiacArrest;
+        public bool IsDead() => _triggerCardiacArrest;
+
+        public void Revive()
+        {
+            CauseCardiacArrest(false);
+            _triggerSANode = true;
+        }
+        
         public void CauseCardiacArrest(bool state)
         {
             if (state)
@@ -116,7 +129,6 @@ namespace CodeBlack.ECG
 
         public void SetHeartRate(float rate)
         {
-            Debug.Log(rate);
             if (_triggerCardiacArrest) return;
             _cardiacCycleRequest = rate;
             //StopAllCoroutines();

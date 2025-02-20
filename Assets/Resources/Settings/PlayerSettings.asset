@@ -20,12 +20,13 @@ MonoBehaviour:
   invertedViewY: 0
   maxViewY: 80
   minViewY: -80
-  walkingForwardSpeed: 5
-  walkingBackwardSpeed: 5
-  walkingStrateSpeed: 5
-  movementSmoothing: 0
-  cartSpeed: 2
+  walkingForwardSpeed: 2.2
+  walkingBackwardSpeed: 2.2
+  walkingStrateSpeed: 2.2
+  movementSmoothing: 0.04
+  runningModifyer: 1.5
+  cartSpeed: 2.4
   cartTurnSpeed: 60
-  cartSmoothing: 0.8
+  cartSmoothing: 1.3
   speedEffector: 1
   crouchSpeedEffector: 0

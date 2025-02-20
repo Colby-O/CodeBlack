@@ -41,8 +41,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1858140653629242894}
-  - component: {fileID: 5778303992669525588}
-  - component: {fileID: 385722391323736787}
+  - component: {fileID: 4284812846091689893}
+  - component: {fileID: 8100774190854755048}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -65,7 +65,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6378901702070525653}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &5778303992669525588
+--- !u!108 &4284812846091689893
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,8 +77,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.25
-  m_Range: 5
+  m_Intensity: 0
+  m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -127,7 +127,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &385722391323736787
+--- !u!114 &8100774190854755048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

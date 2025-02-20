@@ -10,6 +10,11 @@ namespace CodeBlack
             return true;
         }
 
+        public void Open(Transform from)
+        {
+            transform.parent.parent.GetComponent<DoubleDoor>().Open(from);
+        }
+        
         public bool IsPickupable()
         {
             return false;

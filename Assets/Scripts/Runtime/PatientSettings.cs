@@ -12,6 +12,15 @@ namespace CodeBlack
         [Header("Diabetes")]
         public float diabetesAttackChance = 160;
         public float diabetesAttackBloodSugarValue = 330;
+        public float tooMuchInsulinHungerLevel = 0.2f;
+        
+        [Header("Temperature")]
+        public float normalTemp = 37f;
+        public float tempRateRand = 0.01f;
+        public float tempRate = 0.1f;
+        public float tempRecoverRate = 0.5f;
+        public float tempDangerousLevel = 32f;
+        public float tempDeadLevel = 25f;
 
         [Header("Oxygen")]
         public float oxygenAttackChance = 300f;
@@ -38,7 +47,8 @@ namespace CodeBlack
         public float bloodSugarDangerousHigh = 200f;
 
         [Header("Heart")]
-        public float restingHeartRate = 80f;
+        public float restingHeartRateLow = 70f;
+        public float restingHeartRateHigh = 110f;
         public float eventProb = 0.1f;
         public float caProb = 0.1f;
         public float afProb = 0.1f;
@@ -47,10 +57,8 @@ namespace CodeBlack
         public float achRate = 0.01f;
         public float crpRate = 0.01f;
         public float bnpRate = 0.1f;
-        public float tempRate = 0.1f;
         public float achRateRand = 0.001f;
         public float crpRateRand = 0.001f;
         public float bnpRateRand = 0.01f;
-        public float tempRateRand = 0.01f;
     }
 }

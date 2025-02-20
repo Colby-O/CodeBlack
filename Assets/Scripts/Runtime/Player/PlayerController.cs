@@ -1,3 +1,4 @@
+using System;
 using CodeBlack.UI;
 using PlazmaGames.Animation;
 using PlazmaGames.Attribute;
@@ -31,6 +32,7 @@ namespace CodeBlack.Player
 		private InputAction _lookAction;
 		private InputAction _pauseAction;
         private InputAction _crouchAction;
+        private InputAction _shiftAction;
 
         private Vector3 _playerRotation;
 		private Vector3 _headRotation;
@@ -48,6 +50,12 @@ namespace CodeBlack.Player
         [SerializeField, ReadOnly] private bool _isCrouching = false;
         [SerializeField] private float _crouchDist = 0.6f;
         [SerializeField] private float _crouchDuration = 2f;
+        private float _crouchPos = 0f;
+        private float _crouchStartPos;
+        private float _crouchEndPos;
+        
+        private bool _running = false;
+        [SerializeField] private float _cartForward;
 
         //[SerializeField] private float _pushPower = 2.0f;
         //[SerializeField] private float _weight = 6.0f;
@@ -67,12 +75,26 @@ namespace CodeBlack.Player
 			_rawViewInput = e.ReadValue<Vector2>();
 		}
 
+		private void HandleShiftAction(InputAction.CallbackContext e)
+        {
+            _running = true;
+        }
+        
+		private void HandleUnshiftAction(InputAction.CallbackContext e)
+        {
+            _running = false;
+        }
+
+        private float RunningModifyer() => _running ? _playerSettings.runningModifyer : 1f;
+        
 		private void ProcessMovement()
 		{
             if (!_pushingCart)
             {
                 float verticalSpeed = (_rawMovementInput.y == 1) ? _playerSettings.walkingForwardSpeed : _playerSettings.walkingBackwardSpeed;
+                verticalSpeed *= RunningModifyer();
                 float horizontalSpeed = _playerSettings.walkingStrateSpeed;
+                horizontalSpeed *= RunningModifyer();
 
                 verticalSpeed *= _playerSettings.speedEffector;
                 horizontalSpeed *= _playerSettings.speedEffector;
@@ -86,7 +108,9 @@ namespace CodeBlack.Player
             }
             else
             {
-                float turnAmount = ((_playerSettings.invertedViewX) ? -1 : 1) * _playerSettings.cartTurnSpeed * _rawMovementInput.x * Time.deltaTime;
+                float turn = _rawMovementInput.x;
+                if (_rawMovementInput.y < 0 || _movementSpeed.x > 0.001f) turn *= -1;
+                float turnAmount = ((_playerSettings.invertedViewX) ? -1 : 1) * _playerSettings.cartTurnSpeed * turn * Time.deltaTime;
                 _playerRotation.y += turnAmount;
                 transform.localRotation = Quaternion.Euler(_playerRotation);
                 
@@ -171,13 +195,16 @@ namespace CodeBlack.Player
 			if (_characterController == null) _characterController = GetComponent<CharacterController>();
 			if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
 			if (_audioSource == null) _audioSource = GetComponent<AudioSource>();
-
+            
 			_headRotation = _head.transform.localRotation.eulerAngles;
+            _crouchStartPos = _head.transform.localPosition.y;
+            _crouchEndPos = _crouchStartPos - _crouchDist;
 
 			_moveAction = _playerInput.actions["Move"];
 			_lookAction = _playerInput.actions["Look"];
             _interactAction = _playerInput.actions["MoveCart"];
             _crouchAction = _playerInput.actions["Crouch"];
+            _shiftAction = _playerInput.actions["Sprint"];
 
             _interactAction.performed += HandleInteractAction;
             _interactAction.canceled += HandleEndInteractAction;
@@ -185,12 +212,14 @@ namespace CodeBlack.Player
 			_lookAction.performed += HandleLookAction;
             _crouchAction.performed += HandleStartCrouchAction;
             _crouchAction.canceled += HandleEndCrouchAction;
+			_shiftAction.performed += HandleShiftAction;
+			_shiftAction.canceled += HandleUnshiftAction;
         }
 
 
-        private void CrouchAnimation(float p, float start, float end)
+        private void CrouchAnimation(float p)
         {
-            _head.transform.position = new Vector3(_head.transform.position.x, Mathf.Lerp(start, end, p), _head.transform.position.z);
+            _head.transform.localPosition = new Vector3(_head.transform.localPosition.x, Mathf.Lerp(_crouchStartPos, _crouchEndPos, p), _head.transform.localPosition.z);
         }
 
         private void HandleStartCrouchAction(InputAction.CallbackContext e)
@@ -198,8 +227,15 @@ namespace CodeBlack.Player
             if (!_isCrouching)
             {
                 GameManager.GetMonoSystem<IAnimationMonoSystem>().StopAllAnimations(this);
-                float curPos = _head.transform.position.y;
-                GameManager.GetMonoSystem<IAnimationMonoSystem>().RequestAnimation(this, _crouchDuration, (float progress) => CrouchAnimation(progress, curPos, curPos - _crouchDist));
+                float startCrouchPos = _crouchPos;
+                GameManager.GetMonoSystem<IAnimationMonoSystem>().RequestAnimation(
+                    this,
+                    _crouchDuration * (1f - _crouchPos),
+                    (float progress) =>
+                    {
+                        _crouchPos = Mathf.Lerp(startCrouchPos, 1.0f, progress);
+                        CrouchAnimation(_crouchPos);
+                    });
                 _isCrouching = true;
             }
         }
@@ -209,8 +245,15 @@ namespace CodeBlack.Player
             if (_isCrouching)
             {
                 GameManager.GetMonoSystem<IAnimationMonoSystem>().StopAllAnimations(this);
-                float curPos = _head.transform.position.y;
-                GameManager.GetMonoSystem<IAnimationMonoSystem>().RequestAnimation(this, _crouchDuration, (float progress) => CrouchAnimation(progress, curPos, curPos + _crouchDist));
+                float startCrouchPos = _crouchPos;
+                GameManager.GetMonoSystem<IAnimationMonoSystem>().RequestAnimation(
+                    this,
+                    _crouchDuration * _crouchPos,
+                    (float progress) =>
+                    {
+                        _crouchPos = Mathf.Lerp(startCrouchPos, 0.0f, progress);
+                        CrouchAnimation(_crouchPos);
+                    });
                 _isCrouching = false;
             }
         }
@@ -239,7 +282,6 @@ namespace CodeBlack.Player
             _cart.SetParent(null, true);
             //_cart.GetComponent<Collider>().enabled = true;
             
-            _characterController.radius = 0.5f;
             _characterController.center = Vector3.zero;
 
             _playerRotation.y = _head.transform.rotation.eulerAngles.y;
@@ -267,31 +309,19 @@ namespace CodeBlack.Player
 			_head.transform.localRotation = Quaternion.Euler(_headRotation);
             
             
-            _characterController.radius = 1.0f;
-            _characterController.center = new Vector3(-1.13f, 0, 0);
+            _characterController.center = new Vector3(_cartForward, 0, 0);
 
             _cart.SetParent(transform, true);
             _movementSpeed = Vector3.zero;
         }
 
-        //private void OnControllerColliderHit(ControllerColliderHit hit)
-        //{
-        //    Rigidbody body = hit.collider.attachedRigidbody;
-        //    Vector3 force;
-
-        //    if (body == null || body.isKinematic) { return; }
-
-        //    if (hit.moveDirection.y < -0.3f)
-        //    {
-        //        force = new Vector3(0f, -0.5f, 0f) * _gravity * _weight;
-        //    }
-        //    else
-        //    {
-        //        force = hit.controller.velocity * _pushPower;
-        //    }
-
-        //    body.AddForceAtPosition(force, hit.point);
-        //}
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (hit.transform.TryGetComponent(out Door door))
+                door.Open(transform);
+            else if (hit.transform.TryGetComponent(out DoubleDoorHandle handle))
+                handle.Open(transform);
+        }
 
         private void Update()
 		{

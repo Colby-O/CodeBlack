@@ -35,6 +35,7 @@ namespace CodeBlack
         [SerializeField] private bool _oxygenAttacking = false;
         
         [Header("Heart")]
+        [SerializeField] float _restingHeartRate = 80f;
         [SerializeField] float _meanHeartRate = 80f;
 
         [Header("Hunger")]
@@ -51,15 +52,15 @@ namespace CodeBlack
         [SerializeField, ReadOnly] private float _crp = 2;
         [SerializeField, ReadOnly] private float _bnp = 200;
 
-        private bool _achRaising = false;
-        private bool _achLowering = false;
+        [SerializeField] private bool _achRaising = false;
+        [SerializeField] private bool _achLowering = false;
 
-        private bool _crpRaising = false;
-        private bool _crpLowering = false;
+        [SerializeField] private bool _crpRaising = false;
+        [SerializeField] private bool _crpLowering = false;
 
-        private bool _bnpRaising = false;
+        [SerializeField] private bool _bnpRaising = false;
 
-        private bool _tempLowering = false;
+        [SerializeField] private bool _tempLowering = false;
 
         private bool _runningEvent => _achRaising || _achLowering || _crpRaising || _crpLowering || _bnpRaising || _tempLowering;
 
@@ -87,7 +88,10 @@ namespace CodeBlack
             _heart = GetComponentInChildren<Heart>();
             _ekg = GetComponentInChildren<EKG>();
 
-            _meanHeartRate = _settings.restingHeartRate;
+            _temp = _settings.normalTemp;
+
+            _restingHeartRate = Random.Range(_settings.restingHeartRateLow, _settings.restingHeartRateHigh);
+            _meanHeartRate = _restingHeartRate;
 
             _lastTick = Time.time;
 
@@ -111,10 +115,86 @@ namespace CodeBlack
             _oxygenText.text = $"{(int)_oxygen}";
         }
 
-        private void Feed(float food)
+        public void ApplyCure(Cure.Type cure)
         {
-            if (_hunger > 1) return;
-            _hunger += Mathf.Min(1, _hunger + food);
+            Debug.Log($"curing with {cure}");
+            switch (cure)
+            {
+                case Cure.Type.Adrenaline:
+                    if (_achLowering)
+                    {
+                        _achLowering = false;
+                        _ach = 2;
+                    }
+                    else
+                    {
+                        _achRaising = true;
+                    }
+                    break;
+                case Cure.Type.BetaBlockers:
+                    if (_achRaising)
+                    {
+                        _achRaising = false;
+                        _ach = 2;
+                    }
+                    else
+                    {
+                        _achLowering = true;
+                    }
+                    break;
+                case Cure.Type.CalciumBlockers:
+                    if (_heart.HasAtrialFibrillation()) _heart.SetAtrialFibrillation(false);
+                    else _heart.SetAtrialFibrillation(true);
+                    break;
+                case Cure.Type.Atropine:
+                    if (_heart.HasBlock()) _heart.SetBlock(0);
+                    else _heart.SetBlock(Random.Range(1, 3));
+                    break;
+                case Cure.Type.Digoxin:
+                    if (_crpRaising)
+                    {
+                        _crpRaising = false;
+                        _crp = 2;
+                    }
+                    else
+                    {
+                        _crpLowering = true;
+                    }
+                    break;
+                case Cure.Type.Ibuprofen:
+                    if (_crpLowering)
+                    {
+                        _crpLowering = false;
+                        _crp = 2;
+                    }
+                    else
+                    {
+                        _crpRaising = true;
+                    }
+                    break;
+                case Cure.Type.Furosemide:
+                    _bnpRaising = false;
+                    _bnp = 200;
+                    break;
+                case Cure.Type.Defibrillator:
+                    if (_heart.HasVentricularFibrillation()) _heart.SetVentricularFibrillation(false);
+                    else if (_heart.IsDead()) _heart.Revive();
+                    else _heart.CauseCardiacArrest(true);
+                    break;
+                case Cure.Type.Insulin:
+                    if (_diabetesAttacking) _diabetesAttacking = false;
+                    else _hunger = _settings.tooMuchInsulinHungerLevel;
+                    break;
+                case Cure.Type.Food:
+                    _hunger = 1f;
+                    break;
+                case Cure.Type.Heat:
+                    _tempLowering = false;
+                    break;
+                case Cure.Type.Oxygen:
+                    _oxygenAttacking = false;
+                    break;
+            }
         }
 
         private void InjectInsulin()
@@ -164,17 +244,17 @@ namespace CodeBlack
                 _meanHeartRate = MapRange(
                     _oxygen,
                     _settings.oxygenDeathValue, _settings.oxygenDangerousLevel,
-                    10, _settings.restingHeartRate);
+                    10, _restingHeartRate);
             else if (_bloodSugar < _settings.bloodSugarDangerousLow)
                 _meanHeartRate = MapRange(
                     _bloodSugar,
                     20, _settings.bloodSugarDangerousLow,
-                    10, _settings.restingHeartRate);
+                    10, _restingHeartRate);
             else if (_bloodSugar > _settings.bloodSugarDangerousHigh)
                 _meanHeartRate = MapRange(
                     _bloodSugar,
                     _settings.bloodSugarDangerousHigh, _settings.diabetesAttackBloodSugarValue,
-                    _settings.restingHeartRate, 240);
+                    _restingHeartRate, 240);
 
             if (_tick % 5 == 0)
             {
@@ -201,14 +281,16 @@ namespace CodeBlack
             else if (_crpLowering) _crp -= _settings.crpRate;
             else if (_crpRaising) _crp += _settings.crpRate;
             else if (_bnpRaising) _bnp += _settings.bnpRate;
-            else if (_tempLowering) _temp -= _settings.tempRate;
+            
+            if (_tempLowering) _temp = Mathf.Max(_settings.tempDeadLevel, _temp - _settings.tempRate);
+            else if (_temp < _settings.normalTemp) _temp = Mathf.Min(_settings.normalTemp, _temp + _settings.tempRecoverRate);
 
             _ach = Mathf.Clamp(_ach, 1, 4);
             _crp = Mathf.Clamp(_crp, 1, 3);
             _bnp = Mathf.Clamp(_bnp, 200, 400);
 
             float newHeartRate = -1;
-            if (_ach > 2f) newHeartRate = Mathf.Lerp(60f / 210f, 60f / _meanHeartRate, Mathf.Clamp(1f - (_ach - 2f) / 2f, 0, 1));
+            if (_ach > 2f) newHeartRate = Mathf.Lerp(60f / 250f, 60f / _meanHeartRate, Mathf.Clamp(1f - (_ach - 2f) / 2f, 0, 1));
             else newHeartRate = Mathf.Lerp(60f / _meanHeartRate, 3f, Mathf.Clamp(2f - _ach, 0, 1));
             if (newHeartRate > -1) _heart.SetHeartRate(newHeartRate);
 
@@ -231,14 +313,17 @@ namespace CodeBlack
                 if (Random.value < _settings.vfProb) _heart.SetVentricularFibrillation(true);
             }
 
-            if (_temp <= 32)
+            if (_temp <= _settings.tempDangerousLevel)
             {
                 _heart.SetJWave(Mathf.Lerp(0.2f, 1f, Mathf.Clamp((32 - _temp) / 7, 0, 1)));
             }
-
-            if (_temp <= 25)
+            else if (_temp <= _settings.tempDeadLevel)
             {
                 if (Random.value < _settings.caProb) _heart.CauseCardiacArrest(true);
+            }
+            else
+            {
+                _heart.SetJWave(0);
             }
 
             _tick += 1;
@@ -249,7 +334,13 @@ namespace CodeBlack
             float value;
             if (_diabetesAttacking) value = _settings.diabetesAttackBloodSugarValue;
             else value = _settings.bloodSugarNormalValue;
-            _bloodSugarCurrentNormalValue = value * Random.Range(1f / (1 + _settings.bloodSugarVariance), 1 + _settings.bloodSugarVariance);
+            _bloodSugarCurrentNormalValue = ApplyVariance(value, _settings.bloodSugarVariance);
+        }
+
+        private static float ApplyVariance(float value, float variance)
+        {
+            float v = value * variance;
+            return value + v * (Random.value * 2f - 1f);
         }
 
         private static float MapRange(float v, float a, float b, float c, float d)
