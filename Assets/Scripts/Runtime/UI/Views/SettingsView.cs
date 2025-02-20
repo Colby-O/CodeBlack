@@ -135,8 +135,6 @@ namespace CodeBlack.UI
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
 
-            _heart.SetBlock(1);
-
             _overall.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetOverallVolume();
             _music.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetMusicVolume();
             _sfx.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetSfXVolume();
@@ -149,7 +147,6 @@ namespace CodeBlack.UI
         public override void Hide()
         {
             base.Hide();
-            _heart.SetBlock(0);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
