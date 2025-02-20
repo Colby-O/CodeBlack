@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NurseStationFloor
+  m_Name: WoodTop
   m_Shader: {fileID: -6465566751694194690, guid: 9a8d3f45fcbc35344a3aec0fad11e92f,
     type: 3}
   m_Parent: {fileID: 2100000, guid: 171d11719316fed4fae1edb16c52598e, type: 2}
@@ -41,7 +41,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Density: 4
-    - _UseWorld: 1
+    - _UseWorld: 0
     m_Colors:
     - _Stretch: {r: 1.96, g: -0.04, b: 0, a: 0}
   m_BuildTextureStacks: []
