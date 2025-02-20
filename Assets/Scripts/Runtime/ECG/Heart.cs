@@ -113,11 +113,22 @@ namespace CodeBlack.ECG
         
         public void CauseCardiacArrest(bool state)
         {
+            if (_playSound) gameObject.GetComponent<AudioSource>().loop = state;
+
             if (state)
             {
+                if (_playSound)
+                {
+                    gameObject.GetComponent<AudioSource>().pitch = 4;
+                    gameObject.GetComponent<AudioSource>().Play();
+                }
                 _patientMovement = 0;
                 _prevBeats.Clear();
                 _prevBeats.Add(Mathf.Infinity);  
+            }
+            else
+            {
+                if (_playSound) gameObject.GetComponent<AudioSource>().pitch = 1;
             }
             _triggerCardiacArrest = state;
         }

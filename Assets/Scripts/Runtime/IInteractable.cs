@@ -26,5 +26,7 @@ namespace CodeBlack
         /// Method to be called once Interaction is complete
         /// </summary>
         public void EndInteraction();
+
+        public string GetHint();
     }
 }

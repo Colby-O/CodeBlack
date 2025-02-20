@@ -1,5 +1,6 @@
 using CodeBlack.ECG;
 using CodeBlack.Events;
+using PlazmaGames.Audio;
 using PlazmaGames.Core;
 using PlazmaGames.Runtime.DataStructures;
 using PlazmaGames.UI;
@@ -70,6 +71,11 @@ namespace CodeBlack.UI
             base.Hide();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+
+        private void Start()
+        {
+            GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(0, PlazmaGames.Audio.AudioType.Music, true, false);
         }
 
         private void Update()

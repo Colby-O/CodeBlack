@@ -14,7 +14,12 @@ namespace CodeBlack
         {
             transform.parent.parent.GetComponent<DoubleDoor>().Open(from);
         }
-        
+
+        public string GetHint()
+        {
+            return string.Empty;
+        }
+
         public bool IsPickupable()
         {
             return false;

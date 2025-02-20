@@ -120,6 +120,8 @@ namespace CodeBlack.Player
                     ref _movementSpeedVel,
                     _playerSettings.cartSmoothing
                 );
+
+                _movementSpeed.z = 0;
             }
 		}
 

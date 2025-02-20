@@ -26,6 +26,8 @@ namespace CodeBlack
 
         public static Languages language;
         public static PlayerController player;
+        public static bool isPaused = false;
+        public static bool hasStarted = false;
 
         public override string GetApplicationName()
         {

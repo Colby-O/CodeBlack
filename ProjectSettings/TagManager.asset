@@ -6,6 +6,10 @@ TagManager:
   tags:
   - CartHandle
   - Cart
+  - Door
+  - player
+  - MainLight
+  - EmergencyLight
   layers:
   - Default
   - TransparentFX

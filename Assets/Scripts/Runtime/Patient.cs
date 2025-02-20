@@ -16,7 +16,9 @@ namespace CodeBlack
         
         private Heart _heart;
         private EKG _ekg;
-        
+
+        [SerializeField, ReadOnly] private bool _isPaused = false;
+
         [SerializeField] private string _name;
         [SerializeField] private string _sex;
         [SerializeField] private string _age;
@@ -103,6 +105,11 @@ namespace CodeBlack
         private void SetPatientText()
         {
             _patientText.text = $"{_name} - {_sex} - {_age}";
+        }
+
+        private void Update()
+        {
+            _isPaused = CodeBlackGameManager.isPaused || !CodeBlackGameManager.hasStarted;
         }
 
         private void FixedUpdate()
@@ -204,6 +211,8 @@ namespace CodeBlack
 
         private void Tick()
         {
+            if (_isPaused) return;
+
             _lastTick = Time.time;
 
             if (!_oxygenAttacking && Random.value < (1f / _settings.oxygenAttackChance))
@@ -278,9 +287,9 @@ namespace CodeBlack
 
             if (_achLowering) _ach -= _settings.achRate;
             else if (_achRaising) _ach += _settings.achRate * 2f;
-            else if (_crpLowering) _crp -= _settings.crpRate;
+            if (_crpLowering) _crp -= _settings.crpRate;
             else if (_crpRaising) _crp += _settings.crpRate;
-            else if (_bnpRaising) _bnp += _settings.bnpRate;
+            if (_bnpRaising) _bnp += _settings.bnpRate;
             
             if (_tempLowering) _temp = Mathf.Max(_settings.tempDeadLevel, _temp - _settings.tempRate);
             else if (_temp < _settings.normalTemp) _temp = Mathf.Min(_settings.normalTemp, _temp + _settings.tempRecoverRate);

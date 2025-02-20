@@ -1,3 +1,4 @@
+using PlazmaGames.Audio;
 using PlazmaGames.Core;
 using PlazmaGames.UI;
 using TMPro;
@@ -13,6 +14,12 @@ namespace CodeBlack.UI
         {
             if (!GameManager.GetMonoSystem<IUIMonoSystem>().GetView<SettingsView>().EnabledHints) return;
             _hint.text = hint;
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(1, PlazmaGames.Audio.AudioType.Music, true, false);
         }
 
         public override void Init()

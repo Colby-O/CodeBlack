@@ -20,5 +20,14 @@ namespace CodeBlack.Inspectables
             inspector.StartExamine(transform, _type, offsetPoint, string.Empty, true);
             return true;
         }
+
+        public override string GetHint()
+        {
+            if (TryGetComponent(out Cure cure))
+            {
+                return $"Click 'E' To Pickup {cure.cure}";
+            }
+            else return base.GetHint();
+        }
     }
 }

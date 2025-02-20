@@ -43,6 +43,11 @@ namespace CodeBlack.Inspectables
             return true;
         }
 
+        public virtual string GetHint()
+        {
+            return "Click 'E' To Interact";
+        }
+
         public void SetOutlineScale(float scale)
         {
             _outlineScale = scale;
@@ -79,7 +84,7 @@ namespace CodeBlack.Inspectables
             _meshRenderer.materials[_meshRenderer.materials.Length - 1].SetFloat("_Scale", _outlineScale);
         }
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             _backupColor = _outlineColor;
         }

@@ -33,6 +33,11 @@ namespace CodeBlack
             return true;
         }
 
+        public string GetHint()
+        {
+            return string.Empty;
+        }
+
         public void Open(Transform from)
         {
             if (_isOpen) return;

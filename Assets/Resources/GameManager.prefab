@@ -87,7 +87,6 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -309,7 +308,13 @@ MonoBehaviour:
   _ambientSound: 1
   _sfxSound: 1
   _musicSound: 1
-  _musicSounds: []
+  _musicSounds:
+  - id: 0
+    name: Menu
+    audio: {fileID: 8300000, guid: c5d99b23e6075224eb511db02e5716ef, type: 3}
+  - id: 1
+    name: Main
+    audio: {fileID: 8300000, guid: fc8225c5c3f9431499f78199ea2a0d6c, type: 3}
   _ambientSounds: []
   _sfxSounds:
   - id: 0
@@ -409,7 +414,6 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -538,7 +542,6 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

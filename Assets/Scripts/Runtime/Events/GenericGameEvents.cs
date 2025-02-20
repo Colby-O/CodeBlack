@@ -35,6 +35,7 @@ namespace CodeBlack.Events
 
         private static void StartEvent(Component _, object __)
         {
+            CodeBlackGameManager.hasStarted = true;
             GameManager.GetMonoSystem<IUIMonoSystem>().Show<GameView>();
         }
     }
