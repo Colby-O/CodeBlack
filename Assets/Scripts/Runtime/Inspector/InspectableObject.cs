@@ -80,8 +80,10 @@ namespace CodeBlack.Inspectables
 
         public void AddOutline()
         {
-            _meshRenderer.materials[_meshRenderer.materials.Length - 1].SetColor("_OutlineColor", _outlineColor);
-            _meshRenderer.materials[_meshRenderer.materials.Length - 1].SetFloat("_Scale", _outlineScale);
+            foreach (Material mat in _meshRenderer.materials) {
+                mat.SetColor("_OutlineColor", _outlineColor);
+                mat.SetFloat("_Scale", _outlineScale);
+            }
         }
 
         protected virtual void Awake()
@@ -96,7 +98,10 @@ namespace CodeBlack.Inspectables
 
         public void RemoveOutline()
         {
-            _meshRenderer.materials[_meshRenderer.materials.Length - 1].SetFloat("_Scale", 0);
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                mat.SetFloat("_Scale", 0);
+            }
         }
 
         public bool IsInteractable()

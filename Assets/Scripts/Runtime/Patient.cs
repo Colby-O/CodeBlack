@@ -19,10 +19,14 @@ namespace CodeBlack
 
         [SerializeField, ReadOnly] private bool _isPaused = false;
 
+        [SerializeField] private MeshRenderer _icon;
+
         [SerializeField] private string _name;
         [SerializeField] private string _sex;
         [SerializeField] private string _age;
-        
+        [SerializeField] private string _unit;
+        [SerializeField] private string _room;
+
         [Header("Medical Conditions")]
         [SerializeField] private bool _diabetes = false;
 
@@ -86,6 +90,8 @@ namespace CodeBlack
             _ibpText = transform.Find("MonitorDisplay/IbpText").GetComponent<TMP_Text>();
             _sugarsText = transform.Find("MonitorDisplay/SugarsText").GetComponent<TMP_Text>();
             _oxygenText = transform.Find("MonitorDisplay/OxygenText").GetComponent<TMP_Text>();
+            transform.Find("MonitorDisplay/UnitTitle").GetComponent<TMP_Text>().text = _unit;
+            transform.Find("MonitorDisplay/RoomTitle").GetComponent<TMP_Text>().text = _room;
 
             _heart = GetComponentInChildren<Heart>();
             _ekg = GetComponentInChildren<EKG>();
@@ -110,6 +116,12 @@ namespace CodeBlack
         private void Update()
         {
             _isPaused = CodeBlackGameManager.isPaused || !CodeBlackGameManager.hasStarted;
+            if (_icon != null)
+            {
+                if (_heart.IsHealthty()) _icon.material.color = Color.green;
+                else _icon.material.color = Color.red;
+                // _icon.material.color = Color.black if dead
+            }
         }
 
         private void FixedUpdate()

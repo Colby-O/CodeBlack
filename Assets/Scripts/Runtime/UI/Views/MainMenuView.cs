@@ -61,7 +61,6 @@ namespace CodeBlack.UI
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
 
-            _heart.SetBlock(0);
             _bg.SetActive(true);
             _ekg.SetActive(true);
         }
