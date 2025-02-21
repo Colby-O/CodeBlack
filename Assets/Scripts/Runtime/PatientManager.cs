@@ -20,7 +20,7 @@ namespace CodeBlack {
         public bool AnySickPatients() => _patients.Any(p => p.IsSick());
         public bool AnyPatientsFlatLine() => _patients.Any(p => p.IsDead() && !p.IsDeadForReal());
         public bool AnyPatientsDeadForReal() => _patients.Any(p => p.IsDeadForReal());
-        public bool PatientsDeadForReal() => _patients.All(p => p.IsDeadForReal());
+        public bool AllPatientsDeadForReal() => _patients.All(p => p.IsDeadForReal());
 
         private List<Action<Patient>> _patientDeadCallbacks = new();
         public void SubscribePatientDead(Action<Patient> callback) => _patientDeadCallbacks.Add(callback);
