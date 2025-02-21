@@ -8,8 +8,9 @@ namespace CodeBlack
     public sealed class PatientSettings : ScriptableObject
     {
         public float tickRate = 1.0f;
-        
+
         [Header("Diabetes")]
+        public float chanceToHaveDiabetes = 0.40f;
         public float diabetesAttackChance = 160;
         public float diabetesAttackBloodSugarValue = 330;
         public float tooMuchInsulinHungerLevel = 0.2f;
