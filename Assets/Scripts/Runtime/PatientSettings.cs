@@ -7,7 +7,11 @@ namespace CodeBlack
     [CreateAssetMenu(fileName = "PatientSettings", menuName = "Patient/Settings")]
     public sealed class PatientSettings : ScriptableObject
     {
+        [Header("Tick")]
         public float tickRate = 1.0f;
+        public float stage1TickRate = 1.0f;
+        public float stage2TickRate = 0.75f;
+        public float stage3TickRate = 0.5f;
 
         [Header("Diabetes")]
         public float chanceToHaveDiabetes = 0.40f;

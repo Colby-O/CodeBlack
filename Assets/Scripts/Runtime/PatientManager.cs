@@ -7,14 +7,17 @@ using UnityEngine;
 namespace CodeBlack {
     public class PatientManager : MonoBehaviour
     {
+        [SerializeField] private PatientSettings _settings;
         private Patient[] _patients;
 
         private void Awake()
         {
+            _settings.tickRate = _settings.stage1TickRate;
             _patients = GetComponentsInChildren<Patient>();
             SubscribePatientsAllDead(() => Debug.Log("All Dead!"));
             SubscribePatientDead(p => Debug.Log($"Patient {p.name} died!"));
             SubscribePatientUnhealthy(p => Debug.Log($"Patient {p.name} is very sick!"));
+            SubscribeNightEnd(() => Debug.Log($"Night End!"));
         }
 
         public bool AnySickPatients() => _patients.Any(p => p.IsSick());
@@ -37,5 +40,21 @@ namespace CodeBlack {
         private List<Action<Patient>> _patientUnhealthyCallbacks = new();
         public void SubscribePatientUnhealthy(Action<Patient> callback) => _patientUnhealthyCallbacks.Add(callback);
         public void EmitPatientUnhealthy(Patient patient) => _patientUnhealthyCallbacks.ForEach(c => c(patient));
+        
+        private List<Action> _nightEndCallbacks = new();
+        public void SubscribeNightEnd(Action callback) => _nightEndCallbacks.Add(callback);
+        public void EmitNightEnd() => _nightEndCallbacks.ForEach(c => c());
+        private bool _nightEnded = false;
+
+        private void FixedUpdate()
+        {
+            if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 6)
+            {
+                if (!_nightEnded) EmitNightEnd();
+                _nightEnded = true;
+            }
+            else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 5) _settings.tickRate = _settings.stage3TickRate;
+            else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 3) _settings.tickRate = _settings.stage2TickRate;
+        }
     }
 }

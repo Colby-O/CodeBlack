@@ -223,6 +223,7 @@ MonoBehaviour:
   _uiMonoSystem: {fileID: 5166809614279929368}
   _animationMonoSystem: {fileID: 7624245600718811214}
   _audioMonoSystem: {fileID: 8534300272640086813}
+  _timeScale: 30
 --- !u!1 &5984638801365466517
 GameObject:
   m_ObjectHideFlags: 0

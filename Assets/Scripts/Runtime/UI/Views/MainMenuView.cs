@@ -68,6 +68,7 @@ namespace CodeBlack.UI
         public override void Hide()
         {
             base.Hide();
+            CodeBlackGameManager.isPaused = false;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }

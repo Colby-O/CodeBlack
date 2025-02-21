@@ -23,11 +23,16 @@ namespace CodeBlack
         [SerializeField] private UIMonoSystem _uiMonoSystem;
         [SerializeField] private AnimationMonoSystem _animationMonoSystem;
         [SerializeField] private AudioMonoSystem _audioMonoSystem;
+        
+        [SerializeField] private float _timeScale = 5f;
 
         public static Languages language;
         public static PlayerController player;
-        public static bool isPaused = false;
+        public static bool isPaused = true;
         public static bool hasStarted = false;
+
+        private static float _runningTime;
+        public static float RunningTime() => _runningTime;
 
         public override string GetApplicationName()
         {
@@ -78,6 +83,11 @@ namespace CodeBlack
         private void Start()
         {
            player = FindAnyObjectByType<PlayerController>();
+        }
+
+        protected void FixedUpdate()
+        {
+            if (!isPaused && (int)_runningTime / (60 * 60) < 7) _runningTime += Time.deltaTime * _timeScale;
         }
     }
 }

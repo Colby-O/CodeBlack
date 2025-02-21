@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: PatientSettings
   m_EditorClassIdentifier: 
   tickRate: 1
+  stage1TickRate: 1
+  stage2TickRate: 0.75
+  stage3TickRate: 0.5
   chanceToHaveDiabetes: 0.4
   diabetesAttackChance: 450
   diabetesAttackBloodSugarValue: 330
@@ -23,7 +26,7 @@ MonoBehaviour:
   tempRecoverRate: 0.5
   tempDangerousLevel: 32
   tempDeadLevel: 25
-  oxygenAttackChance: 850
+  oxygenAttackChance: 1300
   oxygenDepletionRate: 1
   oxygenRestorationRate: 1.5
   oxygenMinValue: 20
@@ -45,13 +48,13 @@ MonoBehaviour:
   reviveTime: 105
   restingHeartRateLow: 70
   restingHeartRateHigh: 130
-  eventProb: 0.005882355
+  eventProb: 0.006
   caProb: 0.01
   afProb: 0.01
   vfProb: 0.01
   blockProb: 0.01
-  achRate: 0.01
-  crpRate: 0.03
+  achRate: 0.05
+  crpRate: 0.05
   bnpRate: 10
   achRateRand: 0
   crpRateRand: 0
