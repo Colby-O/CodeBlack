@@ -19,9 +19,9 @@ public class PAController : MonoBehaviour
 
     private IEnumerator RepeatAnnouncement(Patient p)
     {
-        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(p.GetDyingAudiio(), PlazmaGames.Audio.AudioType.Sfx, false, true);
-        yield return new WaitForSeconds(_repeatTime);
-        if (p.IsDead()) StartCoroutine(RepeatAnnouncement(p));
+        if (!_pm.AllPatientsDeadForReal() && !p.IsDeadForReal()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(p.GetDyingAudiio(), PlazmaGames.Audio.AudioType.Ambient, false, false);
+        yield return new WaitForSeconds(_repeatTime  + Random.Range(0f, 15f));
+        if (p.IsDead() && !p.IsDeadForReal()) StartCoroutine(RepeatAnnouncement(p));
     }
 
     private void AnnouncementDying(Patient p)
@@ -33,7 +33,8 @@ public class PAController : MonoBehaviour
 
     private void AnnouncementDeath(Patient p)
     {
-        if (!_pm.AllPatientsDeadForReal()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(p.GetDeathAudiio(), PlazmaGames.Audio.AudioType.Sfx, false, true);
+        if (_pm.AllPatientsDeadForReal()) GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
+        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(p.GetDeathAudiio(), PlazmaGames.Audio.AudioType.Ambient, false, false);
     }
 
     private void End()
@@ -44,7 +45,9 @@ public class PAController : MonoBehaviour
 
     private void EveryoneDied()
     {
-        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_everyoneDiedClip, PlazmaGames.Audio.AudioType.Sfx, false, true);
+        StopAllCoroutines();
+        GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Ambient);
+        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_everyoneDiedClip, PlazmaGames.Audio.AudioType.Ambient, false, false);
         End();
     }
 
