@@ -9,6 +9,8 @@ using CodeBlack.Helpers;
 using Unity.Burst.Intrinsics;
 using UnityEditor;
 using Color = UnityEngine.Color;
+using PlazmaGames.Core;
+using PlazmaGames.Audio;
 using MeshRenderer = UnityEngine.MeshRenderer;
 
 namespace CodeBlack
@@ -27,6 +29,9 @@ namespace CodeBlack
         [SerializeField] private MeshRenderer _icon;
 
         [SerializeField] private bool _god = false;
+
+        [SerializeField] private AudioClip _dyingAudio;
+        [SerializeField] private AudioClip _deathAudio;
         [SerializeField] private string _name;
         [SerializeField] private string _sex;
         [SerializeField] private string _age;
@@ -76,6 +81,7 @@ namespace CodeBlack
 
         private bool _wasDead = false;
         private bool _wasHealthy = true;
+        private bool _wasDeadForReal = false;
 
         private bool _runningEvent => _achRaising || _achLowering || _crpRaising || _crpLowering || _bnpRaising || _tempLowering;
 
@@ -91,6 +97,16 @@ namespace CodeBlack
         
         [Header("View")]
         [SerializeField] private int _tick = 0;
+
+        public AudioClip GetDyingAudiio()
+        {
+            return _dyingAudio;
+        }
+
+        public AudioClip GetDeathAudiio()
+        {
+            return _deathAudio;
+        }
 
         private void Awake()
         {
@@ -157,6 +173,15 @@ namespace CodeBlack
             _sugarsText.text = $"{(int)_bloodSugar}";
             _oxygenText.text = $"{(int)_oxygen}";
 
+            if (IsDeadForReal())
+            {
+                if (!_wasDeadForReal)
+                {
+                    _wasDeadForReal = true;
+                    _manager.EmitPatientDeadForReal(this);
+                }
+            }
+
             if (_heart.IsDead())
             {
                 if (!_wasDead)
@@ -195,75 +220,156 @@ namespace CodeBlack
                 case Cure.Type.Adrenaline:
                     if (_achLowering)
                     {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                         _achLowering = false;
                         _ach = 2;
                     }
                     else
                     {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                         _achRaising = true;
                     }
                     break;
                 case Cure.Type.BetaBlockers:
                     if (_achRaising)
                     {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                         _achRaising = false;
                         _ach = 2;
                     }
                     else
                     {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                         _achLowering = true;
                     }
                     break;
                 case Cure.Type.CalciumBlockers:
-                    if (_heart.HasAtrialFibrillation()) _heart.SetAtrialFibrillation(false);
-                    else _heart.SetAtrialFibrillation(true);
+                    if (_heart.HasAtrialFibrillation())
+                    {
+
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
+                        _heart.SetAtrialFibrillation(false);
+                    }
+                    else
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
+                        _heart.SetAtrialFibrillation(true);
+                    }
                     break;
                 case Cure.Type.Atropine:
-                    if (_heart.HasBlock()) _heart.SetBlock(0);
-                    else _heart.SetBlock(Random.Range(1, 3));
+                    if (_heart.HasBlock())
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
+                        _heart.SetBlock(0);
+                    }
+                    else
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
+                        _heart.SetBlock(Random.Range(1, 2));
+                    }
                     break;
                 case Cure.Type.Digoxin:
                     if (_crpRaising)
                     {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                         _crpRaising = false;
                         _crp = 2;
                     }
                     else
                     {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                         _crpLowering = true;
                     }
                     break;
                 case Cure.Type.Ibuprofen:
                     if (_crpLowering)
                     {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                         _crpLowering = false;
                         _crp = 2;
                     }
                     else
                     {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                         _crpRaising = true;
                     }
                     break;
                 case Cure.Type.Furosemide:
+
+                    if (_bnpRaising) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    else GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
                     _bnpRaising = false;
                     _bnp = 200;
                     break;
                 case Cure.Type.Defibrillator:
-                    if (_heart.HasVentricularFibrillation()) _heart.SetVentricularFibrillation(false);
-                    else if (_heart.IsDead()) Revive();
-                    else _heart.CauseCardiacArrest(true);
+                    if (_heart.HasVentricularFibrillation())
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
+                        _heart.SetVentricularFibrillation(false);
+                    }
+                    else if (_heart.IsDead())
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
+                        Revive();
+                    }
+                    else
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+
+                        _heart.CauseCardiacArrest(true);
+                    }
                     break;
                 case Cure.Type.Insulin:
-                    if (_diabetesAttacking) _diabetesAttacking = false;
-                    else _hunger = _settings.tooMuchInsulinHungerLevel;
+                    if (_diabetesAttacking)
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                        _diabetesAttacking = false;
+                    }
+                    else
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("incorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                        _hunger = _settings.tooMuchInsulinHungerLevel;
+                    }
                     break;
                 case Cure.Type.Food:
                     _hunger = 1f;
                     break;
                 case Cure.Type.Heat:
+                    if (_tempLowering)
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                        _temp = Random.Range(34, 37);
+                    }
+                    else
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    }
                     _tempLowering = false;
                     break;
                 case Cure.Type.Oxygen:
+                    if (_oxygenAttacking)
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    }
+                    else
+                    {
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    }
                     _oxygenAttacking = false;
                     break;
             }

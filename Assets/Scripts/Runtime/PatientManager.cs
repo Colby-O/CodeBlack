@@ -30,7 +30,6 @@ namespace CodeBlack {
         public void EmitPatientDead(Patient patient)
         {
             _patientDeadCallbacks.ForEach(c => c(patient));
-            if (_patients.All(p => p.IsDeadForReal())) EmitPatientsAllDead();
         }
         
         private List<Action> _patientsAllDeadCallbacks = new();
@@ -40,7 +39,15 @@ namespace CodeBlack {
         private List<Action<Patient>> _patientUnhealthyCallbacks = new();
         public void SubscribePatientUnhealthy(Action<Patient> callback) => _patientUnhealthyCallbacks.Add(callback);
         public void EmitPatientUnhealthy(Patient patient) => _patientUnhealthyCallbacks.ForEach(c => c(patient));
-        
+
+        private List<Action<Patient>> _patientDeadForRealCallbacks = new();
+        public void SubscribePatientDeadForReal(Action<Patient> callback) => _patientDeadForRealCallbacks.Add(callback);
+        public void EmitPatientDeadForReal(Patient patient)
+        {
+            _patientDeadForRealCallbacks.ForEach(c => c(patient));
+            if (_patients.All(p => p.IsDeadForReal())) EmitPatientsAllDead();
+	}
+
         private List<Action> _nightEndCallbacks = new();
         public void SubscribeNightEnd(Action callback) => _nightEndCallbacks.Add(callback);
         public void EmitNightEnd() => _nightEndCallbacks.ForEach(c => c());
