@@ -75,7 +75,7 @@ namespace CodeBlack.ECG
         }
 
         public bool HasVentricularFibrillation() => _ventricularFibrillation;
-        public void SetVentricularFibrillation(bool state)
+        public void SetVentricularFibrillation(bool state, bool autoRevive = true)
         {
             _ventricularFibrillation = state;
 
@@ -88,7 +88,7 @@ namespace CodeBlack.ECG
             {
                 CauseCardiacArrest(false);
                 _patientMovement = 0;
-                _triggerSANode = true;
+                if (autoRevive) _triggerSANode = true;
             }
         }
 
@@ -140,7 +140,6 @@ namespace CodeBlack.ECG
 
         public void SetHeartRate(float rate)
         {
-            if (_triggerCardiacArrest) return;
             _cardiacCycleRequest = rate;
             //StopAllCoroutines();
             //_triggerSANode = true;

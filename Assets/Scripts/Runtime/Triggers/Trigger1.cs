@@ -46,14 +46,24 @@ namespace CodeBlack.Trigger
 
     public class Trigger1 : Trigger
     {
+        private bool _wasTrueBefore = false;
+
         protected override void OnEnter()
         {
+            if (CodeBlackGameManager.isPaused)
+            {
+                _wasTrueBefore = true;
+            }
+            else
+            {
+                _wasTrueBefore = false;
+            }
             CodeBlackGameManager.isPaused = true;
         }
 
         protected override void OnExit()
         {
-            CodeBlackGameManager.isPaused = false;
+            if (!_wasTrueBefore) CodeBlackGameManager.isPaused = false;
         }
     }
 }

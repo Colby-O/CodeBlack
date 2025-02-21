@@ -181,6 +181,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoubleDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 7100190274099297891, guid: 52da2b6a32b31a04f9d37dee95cac87f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e16dfcbb4f6ff594785f2032dc68ff8f, type: 2}
+    - target: {fileID: 7100190274099297891, guid: 52da2b6a32b31a04f9d37dee95cac87f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: e16dfcbb4f6ff594785f2032dc68ff8f, type: 2}
+    - target: {fileID: 7323740588196516049, guid: 52da2b6a32b31a04f9d37dee95cac87f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e16dfcbb4f6ff594785f2032dc68ff8f, type: 2}
+    - target: {fileID: 7323740588196516049, guid: 52da2b6a32b31a04f9d37dee95cac87f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: e16dfcbb4f6ff594785f2032dc68ff8f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

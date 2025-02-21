@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d9da330e6435104dbd42dda19171608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingView: CodeBlack.UI.MainMenuView, Assembly-CSharp
+  _startingView: CodeBack.UI.IPadView, Assembly-CSharp
   _views: []
   _currentView: {fileID: 0}
 --- !u!1 &7894337963033008157
