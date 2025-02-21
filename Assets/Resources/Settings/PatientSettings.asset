@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PatientSettings
   m_EditorClassIdentifier: 
   tickRate: 1
-  diabetesAttackChance: 430
+  diabetesAttackChance: 450
   diabetesAttackBloodSugarValue: 330
   tooMuchInsulinHungerLevel: 0.2
   normalTemp: 37
@@ -24,6 +24,7 @@ MonoBehaviour:
   tempDeadLevel: 25
   oxygenAttackChance: 850
   oxygenDepletionRate: 1
+  oxygenRestorationRate: 1.5
   oxygenMinValue: 20
   oxygenDangerousLevel: 65
   oxygenDeathValue: 30

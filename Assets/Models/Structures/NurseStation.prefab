@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 772830503815255482}
   - component: {fileID: 720949263209607963}
   - component: {fileID: 4172551723369590892}
+  - component: {fileID: 3383520727925751137}
   m_Layer: 0
   m_Name: NurseDesk2
   m_TagString: Untagged
@@ -85,6 +86,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3383520727925751137
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131754092769746167}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4388635080089640093, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
 --- !u!1 &1774342380146867671
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,6 +119,7 @@ GameObject:
   - component: {fileID: 6170195428230139128}
   - component: {fileID: 7154124690980764347}
   - component: {fileID: 5093800662628075220}
+  - component: {fileID: 2001276686543980267}
   m_Layer: 0
   m_Name: NurseDesk4
   m_TagString: Untagged
@@ -171,6 +195,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2001276686543980267
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774342380146867671}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9108690646103637190, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
 --- !u!1 &2766191572131585141
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +321,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4873157148435656310, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
+  - {fileID: 2100000, guid: 44e605e7aef14f841a78a7babab35969, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -361,7 +407,7 @@ MeshRenderer:
   - {fileID: 2100000, guid: 44e605e7aef14f841a78a7babab35969, type: 2}
   - {fileID: 2100000, guid: 171d11719316fed4fae1edb16c52598e, type: 2}
   - {fileID: 2100000, guid: 13c96fde68068b1459606ad87a85e2d0, type: 2}
-  - {fileID: 2100000, guid: b4dd612ba68d43247b52b0149852e0e1, type: 2}
+  - {fileID: 2100000, guid: e1172410ecc4a4846ade2be319878cc6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -428,6 +474,7 @@ GameObject:
   - component: {fileID: 5757389977058270717}
   - component: {fileID: 8287999450614910548}
   - component: {fileID: 5570610519499597985}
+  - component: {fileID: 8517255599600890117}
   m_Layer: 0
   m_Name: NurseDesk1.001
   m_TagString: Untagged
@@ -503,6 +550,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8517255599600890117
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4425417974952303822}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4273304395596223255, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
 --- !u!1 &4776652963873145968
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,7 +803,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4873157148435656310, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
+  - {fileID: 2100000, guid: 44e605e7aef14f841a78a7babab35969, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -767,6 +836,7 @@ GameObject:
   - component: {fileID: 1676830099591184003}
   - component: {fileID: 8876312057574014245}
   - component: {fileID: 2175230513167231296}
+  - component: {fileID: 7454272905199557266}
   m_Layer: 0
   m_Name: NurseDesk1
   m_TagString: Untagged
@@ -842,6 +912,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7454272905199557266
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998097423281503508}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2251178331497280615, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
 --- !u!1 &8198734257937194407
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +945,7 @@ GameObject:
   - component: {fileID: 7629866987906370679}
   - component: {fileID: 477778673352347002}
   - component: {fileID: 8551985897954552651}
+  - component: {fileID: 8186990287271675500}
   m_Layer: 0
   m_Name: NurseDesk3
   m_TagString: Untagged
@@ -905,7 +998,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 95a70450f15e8b040b0b3d09ecdbddc8, type: 2}
   - {fileID: 2100000, guid: 171d11719316fed4fae1edb16c52598e, type: 2}
-  - {fileID: 3876542345217667742, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
+  - {fileID: 2100000, guid: 202aaf49f41fdb44a91f4eff3964dfee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -927,6 +1020,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8186990287271675500
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8198734257937194407}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6184410033441567058, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
 --- !u!1 &8482538706853223813
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,7 +1103,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8556262120643298411, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
+  - {fileID: 2100000, guid: 062d7f1fbe7106d49a1a17877015947f, type: 2}
   - {fileID: 2100000, guid: 202aaf49f41fdb44a91f4eff3964dfee, type: 2}
   - {fileID: -6478536213147159724, guid: 193a7685176b8ef4fae845b1c56b7b47, type: 3}
   m_StaticBatchInfo:

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using CodeBlack.Inspectables;
 using CodeBlack.Player;
+using PlazmaGames.Core.Utils;
 
 namespace CodeBlack.Player
 {
@@ -79,11 +80,7 @@ namespace CodeBlack.Player
 				rb.isKinematic = true;
 			}
 
-            Collider colider = obj.GetComponent<Collider>();
-            if (colider)
-            {
-                colider.enabled= false;
-            }
+            obj.GetComponents<Collider>().ForEach(c => c.enabled = false);
         }
 
 		public void EndExamine()
@@ -108,13 +105,8 @@ namespace CodeBlack.Player
                     rb.isKinematic = false;
 					rb.transform.parent = null;
                 }
-
-                Collider colider = _examinedObject.GetComponent<Collider>();
-                if (colider)
-                {
-                    colider.enabled = true;
-                }
-
+                
+                _examinedObject.GetComponents<Collider>().ForEach(c => c.enabled = true);
                 return;
 			}
 

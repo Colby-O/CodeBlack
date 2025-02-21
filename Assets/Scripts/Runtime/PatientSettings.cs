@@ -25,6 +25,7 @@ namespace CodeBlack
         [Header("Oxygen")]
         public float oxygenAttackChance = 300f;
         public float oxygenDepletionRate = 0.5f;
+        public float oxygenRestorationRate = 1.5f;
         public float oxygenMinValue = 20f;
         public float oxygenDangerousLevel = 80f;
         public float oxygenDeathValue = 52f;

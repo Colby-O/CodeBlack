@@ -270,10 +270,7 @@ namespace CodeBlack.Player
 
         private void HandleEndInteractAction(InputAction.CallbackContext e)
         {
-            if (_inCartRange)
-            {
-                if (_pushingCart) ExitCart();
-            }
+            if (_pushingCart) ExitCart();
         }
 
         private void ExitCart()

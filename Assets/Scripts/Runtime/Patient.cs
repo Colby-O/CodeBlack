@@ -231,7 +231,7 @@ namespace CodeBlack
                 _oxygenAttacking = true;
 
             if (_oxygenAttacking) _oxygen = Mathf.Max(_settings.oxygenMinValue, _oxygen - _settings.oxygenDepletionRate);
-            else _oxygen = Mathf.Min(99f, _oxygen + 1);
+            else _oxygen = Mathf.Min(99f, _oxygen + _settings.oxygenRestorationRate);
 
             if (_diabetes && !_diabetesAttacking && Random.value < (1f / _settings.diabetesAttackChance) && _hunger < 1)
             {
@@ -240,6 +240,7 @@ namespace CodeBlack
             }
 
             _hunger = Mathf.Max(0, _hunger - _settings.hungerDepletionRate);
+            if (_diabetesAttacking) _hunger = 1f;
             
             if (Random.value < (1f / _settings.bloodSugarNormalValueChangeRate))
             {
@@ -261,17 +262,17 @@ namespace CodeBlack
             }
             _bloodSugar += _bloodSugarRate;
 
-            if (_oxygen < _settings.oxygenDangerousLevel)
+            if (_oxygen < _settings.oxygenDangerousLevel && !_achRaising)
                 _meanHeartRate = MapRange(
                     _oxygen,
                     _settings.oxygenDeathValue, _settings.oxygenDangerousLevel,
                     10, _restingHeartRate);
-            else if (_bloodSugar < _settings.bloodSugarDangerousLow)
+            else if (_bloodSugar < _settings.bloodSugarDangerousLow && !_achRaising)
                 _meanHeartRate = MapRange(
                     _bloodSugar,
                     20, _settings.bloodSugarDangerousLow,
                     10, _restingHeartRate);
-            else if (_bloodSugar > _settings.bloodSugarDangerousHigh)
+            else if (_bloodSugar > _settings.bloodSugarDangerousHigh && !_achLowering)
                 _meanHeartRate = MapRange(
                     _bloodSugar,
                     _settings.bloodSugarDangerousHigh, _settings.diabetesAttackBloodSugarValue,

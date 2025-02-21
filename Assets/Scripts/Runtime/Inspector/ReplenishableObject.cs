@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections.Generic;
+using PlazmaGames.Core.Utils;
 using UnityEngine;
 
 namespace CodeBlack.Inspectables {
@@ -43,7 +44,7 @@ namespace CodeBlack.Inspectables {
             _hasReplenishable = false;
 
             if (_rb == null) _rb = GetComponent<Rigidbody>();
-            GetComponent<Collider>().enabled = true;
+            GetComponents<Collider>().ForEach(c => c.enabled = true);
             _rb.isKinematic = true;
         }
 
