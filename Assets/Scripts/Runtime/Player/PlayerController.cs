@@ -5,6 +5,7 @@ using PlazmaGames.Attribute;
 using PlazmaGames.Core;
 using PlazmaGames.UI;
 using System.Collections;
+using CodeBack.UI;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -201,10 +202,12 @@ namespace CodeBlack.Player
 
             if (_isTabeletOpen)
             {
+                GameManager.GetMonoSystem<IUIMonoSystem>().GetView<IPadView>().Show();
                 CodeBlackGameManager.isPaused = true;
             }
             else
             {
+                GameManager.GetMonoSystem<IUIMonoSystem>().GetView<IPadView>().Hide();
                 CodeBlackGameManager.isPaused = false;
             }
         }

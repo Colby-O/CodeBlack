@@ -60,6 +60,19 @@ namespace CodeBack.UI {
             _guideView.gameObject.SetActive(true);
         }
 
+        public override void Show()
+        {
+            base.Show();
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+
+        public override void Hide()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
         private void Next()
         {
             _back.gameObject.SetActive(true);
