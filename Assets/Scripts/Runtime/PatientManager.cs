@@ -17,6 +17,11 @@ namespace CodeBlack {
             SubscribePatientUnhealthy(p => Debug.Log($"Patient {p.name} is very sick!"));
         }
 
+        public bool AnySickPatients() => _patients.Any(p => p.IsSick());
+        public bool AnyPatientsFlatLine() => _patients.Any(p => p.IsDead() && !p.IsDeadForReal());
+        public bool AnyPatientsDeadForReal() => _patients.Any(p => p.IsDeadForReal());
+        public bool PatientsDeadForReal() => _patients.All(p => p.IsDeadForReal());
+
         private List<Action<Patient>> _patientDeadCallbacks = new();
         public void SubscribePatientDead(Action<Patient> callback) => _patientDeadCallbacks.Add(callback);
         public void EmitPatientDead(Patient patient)

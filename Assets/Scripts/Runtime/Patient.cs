@@ -175,6 +175,7 @@ namespace CodeBlack
         }
 
         public bool IsDead() => _heart.IsDead();
+        public bool IsSick() => !_heart.IsHealthty();
 
         public void ApplyCure(Cure.Type cure)
         {
