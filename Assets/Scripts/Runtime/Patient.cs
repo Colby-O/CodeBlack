@@ -134,12 +134,17 @@ namespace CodeBlack
             }
         }
 
+        public bool IsDeadForReal() => _heart.IsDead() && _heart.DeadTime() > _settings.reviveTime;
+
+        private int Sbp() => IsDeadForReal() ? 0 : (int)_heart.Sbp();
+        private int Dbp() => IsDeadForReal() ? 0 : (int)_heart.Dbp();
+
         private void FixedUpdate()
         {
             if (Time.time > _lastTick + _settings.tickRate) Tick();
 
             _bpmText.text = ((int)_heart.Bpm()).ToString();
-            _ibpText.text = $"{(int)_heart.Sbp()}/{(int)_heart.Dbp()}";
+            _ibpText.text = $"{Sbp()}/{Dbp()}";
             _sugarsText.text = $"{(int)_bloodSugar}";
             _oxygenText.text = $"{(int)_oxygen}";
 
@@ -235,7 +240,7 @@ namespace CodeBlack
                     break;
                 case Cure.Type.Defibrillator:
                     if (_heart.HasVentricularFibrillation()) _heart.SetVentricularFibrillation(false);
-                    else if (_heart.IsDead()) _heart.Revive();
+                    else if (_heart.IsDead()) Revive();
                     else _heart.CauseCardiacArrest(true);
                     break;
                 case Cure.Type.Insulin:
@@ -254,6 +259,13 @@ namespace CodeBlack
             }
         }
 
+        private void Revive()
+        {
+            if (!IsDead()) return;
+            if (_heart.DeadTime() > _settings.reviveTime) return;
+            _heart.Revive();
+        }
+
         private void InjectInsulin()
         {
             _diabetesAttacking = false;
@@ -262,8 +274,15 @@ namespace CodeBlack
         private void Tick()
         {
             if (_isPaused) return;
-
             _lastTick = Time.time;
+
+            if (IsDeadForReal())
+            {
+                _oxygen = 0;
+                _temp = 0;
+                _bloodSugar = 0;
+                return;
+            }
 
             if (!_oxygenAttacking && Random.value < (1f / _settings.oxygenAttackChance))
                 _oxygenAttacking = true;

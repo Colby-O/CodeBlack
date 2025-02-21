@@ -48,8 +48,10 @@ namespace CodeBlack
         public float bloodSugarDangerousHigh = 200f;
 
         [Header("Heart")]
+        public float reviveTime = 60 + 45;
         public float restingHeartRateLow = 70f;
         public float restingHeartRateHigh = 110f;
+        [Header("Heart Stats")]
         public float eventProb = 0.1f;
         public float caProb = 0.1f;
         public float afProb = 0.1f;

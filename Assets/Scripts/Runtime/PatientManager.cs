@@ -22,7 +22,7 @@ namespace CodeBlack {
         public void EmitPatientDead(Patient patient)
         {
             _patientDeadCallbacks.ForEach(c => c(patient));
-            if (_patients.All(p => p.IsDead())) EmitPatientsAllDead();
+            if (_patients.All(p => p.IsDeadForReal())) EmitPatientsAllDead();
         }
         
         private List<Action> _patientsAllDeadCallbacks = new();

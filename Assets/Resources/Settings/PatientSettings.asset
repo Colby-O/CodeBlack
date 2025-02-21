@@ -41,6 +41,7 @@ MonoBehaviour:
   bloodSugarHeartDropRate: 1
   bloodSugarDangerousLow: 80
   bloodSugarDangerousHigh: 200
+  reviveTime: 105
   restingHeartRateLow: 70
   restingHeartRateHigh: 130
   eventProb: 0.001

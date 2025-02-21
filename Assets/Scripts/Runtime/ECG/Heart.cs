@@ -52,10 +52,13 @@ namespace CodeBlack.ECG
         [SerializeField, ReadOnly] private int _blocks = 0;
         private float _sbpScale = 1;
         private float _dbpScale = 1;
+        private float _deadTime;
 
         public float Bpm() => 60.0f / (_prevBeats.Sum() / _prevBeats.Count);
         public float Sbp() => (_k1 - _k2 * _ptt) * _sbpScale;
         public float Dbp() => (_k3 - _k4 * _ptt) * _dbpScale;
+
+        public float DeadTime() => Time.time - _deadTime;
 
         public void SetJWave(float jWave)
         {
@@ -77,9 +80,8 @@ namespace CodeBlack.ECG
         public bool HasVentricularFibrillation() => _ventricularFibrillation;
         public void SetVentricularFibrillation(bool state, bool autoRevive = true)
         {
-            _ventricularFibrillation = state;
-
-            if (_ventricularFibrillation)
+            if (state == _ventricularFibrillation || _triggerCardiacArrest) return;
+            if (state)
             {
                 CauseCardiacArrest(true);
                 _patientMovement = 10;
@@ -90,6 +92,8 @@ namespace CodeBlack.ECG
                 _patientMovement = 0;
                 if (autoRevive) _triggerSANode = true;
             }
+            
+            _ventricularFibrillation = state;
         }
 
         public bool GetAtrialFibrillationState()
@@ -102,8 +106,8 @@ namespace CodeBlack.ECG
             return _heartBlock != 0;
         }
 
-        public bool IsAlive() => !_triggerCardiacArrest;
-        public bool IsDead() => _triggerCardiacArrest;
+        public bool IsDead() => _triggerCardiacArrest && !_ventricularFibrillation;
+        public bool IsAlive() => !IsDead();
 
         public void Revive()
         {
@@ -117,6 +121,8 @@ namespace CodeBlack.ECG
 
             if (state)
             {
+                _deadTime = Time.time;
+                if (_ventricularFibrillation) _ventricularFibrillation = false;
                 if (_playSound)
                 {
                     gameObject.GetComponent<AudioSource>().pitch = 4;
