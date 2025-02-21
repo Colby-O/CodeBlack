@@ -46,7 +46,7 @@ MonoBehaviour:
   restingHeartRateLow: 70
   restingHeartRateHigh: 130
   eventProb: 0.005882355
-  caProb: 0.01
+  caProb: 1
   afProb: 0.01
   vfProb: 0.01
   blockProb: 0.01

@@ -27,6 +27,8 @@ namespace CodeBlack
 
         [SerializeField] private MeshRenderer _icon;
 
+        [SerializeField] private AudioClip _dyingAudio;
+        [SerializeField] private AudioClip _deathAudio;
         [SerializeField] private string _name;
         [SerializeField] private string _sex;
         [SerializeField] private string _age;
@@ -76,6 +78,7 @@ namespace CodeBlack
 
         private bool _wasDead = false;
         private bool _wasHealthy = true;
+        private bool _wasDeadForReal = false;
 
         private bool _runningEvent => _achRaising || _achLowering || _crpRaising || _crpLowering || _bnpRaising || _tempLowering;
 
@@ -91,6 +94,16 @@ namespace CodeBlack
         
         [Header("View")]
         [SerializeField] private int _tick = 0;
+
+        public AudioClip GetDyingAudiio()
+        {
+            return _dyingAudio;
+        }
+
+        public AudioClip GetDeathAudiio()
+        {
+            return _deathAudio;
+        }
 
         private void Awake()
         {
@@ -151,6 +164,15 @@ namespace CodeBlack
             _ibpText.text = $"{Sbp()}/{Dbp()}";
             _sugarsText.text = $"{(int)_bloodSugar}";
             _oxygenText.text = $"{(int)_oxygen}";
+
+            if (IsDeadForReal())
+            {
+                if (!_wasDeadForReal)
+                {
+                    _wasDeadForReal = true;
+                    _manager.EmitPatientDeadForReal(this);
+                }
+            }
 
             if (_heart.IsDead())
             {
