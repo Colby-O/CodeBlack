@@ -449,7 +449,7 @@ namespace CodeBlack
                 _meanHeartRate = MapRange(
                     _bloodSugar,
                     _settings.bloodSugarDangerousHigh, _settings.diabetesAttackBloodSugarValue,
-                    _restingHeartRate, 240);
+                    _restingHeartRate, 330);
 
             if (!_god && _tick % 5 == 0)
             {

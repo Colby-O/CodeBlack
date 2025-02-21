@@ -126,6 +126,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3749294166946750349, guid: 6e9012ee1601fee45af5df2a1507172f,
         type: 3}
+      propertyPath: _dyingAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 115f3ec7b74efd84884bfb18eeec01ec, type: 3}
+    - target: {fileID: 3749294166946750349, guid: 6e9012ee1601fee45af5df2a1507172f,
+        type: 3}
       propertyPath: _achRateRand
       value: 0.005
       objectReference: {fileID: 0}
@@ -228,6 +233,11 @@ PrefabInstance:
       propertyPath: _unit
       value: Unit 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3749294166946750349, guid: 6e9012ee1601fee45af5df2a1507172f,
+        type: 3}
+      propertyPath: _dyingAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 0704b60904562604cacb62c504bce373, type: 3}
     - target: {fileID: 6653720683175431218, guid: 6e9012ee1601fee45af5df2a1507172f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -322,6 +332,11 @@ PrefabInstance:
       propertyPath: _unit
       value: Unit 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3749294166946750349, guid: 6e9012ee1601fee45af5df2a1507172f,
+        type: 3}
+      propertyPath: _dyingAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 9b4233c23a4dbdd4ebb428c79bc13f27, type: 3}
     - target: {fileID: 6653720683175431218, guid: 6e9012ee1601fee45af5df2a1507172f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -416,6 +431,11 @@ PrefabInstance:
       propertyPath: _unit
       value: Unit 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3749294166946750349, guid: 6e9012ee1601fee45af5df2a1507172f,
+        type: 3}
+      propertyPath: _dyingAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 320f32b38d54399439d3736fc5fdaf74, type: 3}
     - target: {fileID: 6653720683175431218, guid: 6e9012ee1601fee45af5df2a1507172f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -515,6 +535,11 @@ PrefabInstance:
       propertyPath: _unit
       value: Room 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3749294166946750349, guid: 6e9012ee1601fee45af5df2a1507172f,
+        type: 3}
+      propertyPath: _dyingAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: a1ed440dfa4b3e842812f71607758019, type: 3}
     - target: {fileID: 6653720683175431218, guid: 6e9012ee1601fee45af5df2a1507172f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -614,6 +639,11 @@ PrefabInstance:
       propertyPath: _unit
       value: Unit 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3749294166946750349, guid: 6e9012ee1601fee45af5df2a1507172f,
+        type: 3}
+      propertyPath: _dyingAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 005422f5a3eff2441a25955ba28aa735, type: 3}
     - target: {fileID: 6653720683175431218, guid: 6e9012ee1601fee45af5df2a1507172f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
