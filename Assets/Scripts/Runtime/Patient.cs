@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 using PlazmaGames.Attribute;
 using CodeBlack.Helpers;
 using Unity.Burst.Intrinsics;
+using UnityEditor;
+using Color = UnityEngine.Color;
 
 namespace CodeBlack
 {
@@ -105,6 +107,7 @@ namespace CodeBlack
             _manager = transform.parent.GetComponent<PatientManager>();
             _heart = GetComponentInChildren<Heart>();
             _ekg = GetComponentInChildren<EKG>();
+            _icon = transform.Find("Icon").GetComponent<MeshRenderer>();
 
             _temp = _settings.normalTemp;
 
@@ -123,17 +126,6 @@ namespace CodeBlack
             _patientText.text = $"{_name} - {_sex} - {_age}";
         }
 
-        private void Update()
-        {
-            _isPaused = CodeBlackGameManager.isPaused || !CodeBlackGameManager.hasStarted;
-            if (_icon != null)
-            {
-                if (_heart.IsHealthty()) _icon.material.color = Color.green;
-                else _icon.material.color = Color.red;
-                // _icon.material.color = Color.black if dead
-            }
-        }
-
         public bool IsDeadForReal() => _heart.IsDead() && _heart.DeadTime() > _settings.reviveTime;
 
         private int Sbp() => IsDeadForReal() ? 0 : (int)_heart.Sbp();
@@ -141,6 +133,13 @@ namespace CodeBlack
 
         private void FixedUpdate()
         {
+            _isPaused = CodeBlackGameManager.isPaused || !CodeBlackGameManager.hasStarted;
+
+            if (IsDeadForReal()) _icon.material.color = new Color(0, 0, 0, 0);
+            else if (IsDead()) _icon.material.color = new Color(0.37f, 0.37f, 0.37f);
+            else if (_heart.IsHealthty()) _icon.material.color = Color.green;
+            else _icon.material.color = Color.red;
+            
             if (Time.time > _lastTick + _settings.tickRate) Tick();
 
             _bpmText.text = ((int)_heart.Bpm()).ToString();
