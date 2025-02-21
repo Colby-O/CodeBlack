@@ -146,7 +146,7 @@ namespace CodeBlack
 
         private void SetPatientText()
         {
-            _patientText.text = $"{_name} - {_sex} - {_age}";
+            _patientText.text = $"{_name.Replace('\r', ' ')} - {_sex.Replace('\r', ' ')} - {_age.Replace('\r', ' ')}";
         }
 
         public bool IsDeadForReal() => _heart.IsDead() && _heart.DeadTime() > _settings.reviveTime;
