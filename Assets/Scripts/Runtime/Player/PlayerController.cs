@@ -203,7 +203,6 @@ namespace CodeBlack.Player
             if (_isTabeletOpen)
             {
                 GameManager.GetMonoSystem<IUIMonoSystem>().GetView<IPadView>().Show();
-                CodeBlackGameManager.isPaused = true;
             }
             else
             {

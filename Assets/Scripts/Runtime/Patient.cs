@@ -14,6 +14,8 @@ namespace CodeBlack
     {
         [SerializeField] private PatientSettings _settings;
         
+        private PatientManager _manager;
+        
         private Heart _heart;
         private EKG _ekg;
 
@@ -68,6 +70,9 @@ namespace CodeBlack
 
         [SerializeField] private bool _tempLowering = false;
 
+        private bool _wasDead = false;
+        private bool _wasHealthy = true;
+
         private bool _runningEvent => _achRaising || _achLowering || _crpRaising || _crpLowering || _bnpRaising || _tempLowering;
 
         private TMP_Text _patientText;
@@ -77,12 +82,16 @@ namespace CodeBlack
         private TMP_Text _oxygenText;
 
         private float _lastTick;
+
+        private float _startTime;
         
         [Header("View")]
         [SerializeField] private int _tick = 0;
 
         private void Awake()
         {
+            _startTime = Time.time;
+            
             _name = NameGenerator.GenerateName();
 
             _patientText = transform.Find("MonitorDisplay/PatientText").GetComponent<TMP_Text>();
@@ -93,6 +102,7 @@ namespace CodeBlack
             transform.Find("MonitorDisplay/UnitTitle").GetComponent<TMP_Text>().text = _unit;
             transform.Find("MonitorDisplay/RoomTitle").GetComponent<TMP_Text>().text = _room;
 
+            _manager = transform.parent.GetComponent<PatientManager>();
             _heart = GetComponentInChildren<Heart>();
             _ekg = GetComponentInChildren<EKG>();
 
@@ -132,7 +142,35 @@ namespace CodeBlack
             _ibpText.text = $"{(int)_heart.Sbp()}/{(int)_heart.Dbp()}";
             _sugarsText.text = $"{(int)_bloodSugar}";
             _oxygenText.text = $"{(int)_oxygen}";
+
+            if (_heart.IsDead())
+            {
+                if (!_wasDead)
+                {
+                    _wasDead = true;
+                    _manager.EmitPatientDead(this);
+                }
+            }
+            else if (_wasDead)
+            {
+                _wasDead = false;
+            }
+            
+            if (!_heart.IsHealthty())
+            {
+                if (Time.time - _startTime > 10 && _wasHealthy)
+                {
+                    _wasHealthy = false;
+                    _manager.EmitPatientUnhealthy(this);
+                }
+            }
+            else if (!_wasHealthy)
+            {
+                _wasHealthy = true;
+            }
         }
+
+        public bool IsDead() => _heart.IsDead();
 
         public void ApplyCure(Cure.Type cure)
         {

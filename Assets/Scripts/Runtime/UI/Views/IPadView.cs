@@ -41,6 +41,7 @@ namespace CodeBack.UI {
 
         private void GotoPatient()
         {
+            CodeBlackGameManager.isPaused = false;
             _patientView.gameObject.SetActive(true);
             _mapView.gameObject.SetActive(false);
             _guideView.gameObject.SetActive(false);
@@ -48,6 +49,7 @@ namespace CodeBack.UI {
 
         private void GotoMap()
         {
+            CodeBlackGameManager.isPaused = true;
             _patientView.gameObject.SetActive(false);
             _mapView.gameObject.SetActive(true);
             _guideView.gameObject.SetActive(false);
@@ -55,6 +57,7 @@ namespace CodeBack.UI {
 
         private void GotoGuide()
         {
+            CodeBlackGameManager.isPaused = true;
             _patientView.gameObject.SetActive(false);
             _mapView.gameObject.SetActive(false);
             _guideView.gameObject.SetActive(true);
@@ -71,6 +74,7 @@ namespace CodeBack.UI {
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            GotoPatient();
         }
 
         private void Next()
