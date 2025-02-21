@@ -1,3 +1,4 @@
+using CodeBlack;
 using PlazmaGames.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,8 +23,10 @@ namespace CodeBack.UI {
 
         //[Header("Map")]
 
-        //[Header("Guide")]
-
+        [Header("Guide")]
+        [SerializeField] private Guide _guide;
+        [SerializeField] private Button _back;
+        [SerializeField] private Button _next;
 
         private void Zoom(RawImage patient)
         {
@@ -57,11 +60,31 @@ namespace CodeBack.UI {
             _guideView.gameObject.SetActive(true);
         }
 
+        private void Next()
+        {
+            _back.gameObject.SetActive(true);
+            if(!_guide.Next())
+            {
+                _next.gameObject.SetActive(false);
+            }
+        }
+
+        private void Back()
+        {
+            _next.gameObject.SetActive(true);
+            if (!_guide.Back())
+            {
+                _back.gameObject.SetActive(false);
+            }
+        }
+
         public override void Init()
         {
             CancelZoom();
 
             GotoPatient();
+
+            _back.gameObject.SetActive(false);
 
             _patientTab.onClick.AddListener(GotoPatient);
             _mapTab.onClick.AddListener(GotoMap);
@@ -71,6 +94,9 @@ namespace CodeBack.UI {
             {
                 b.onClick.AddListener(() => Zoom(b.GetComponent<RawImage>()));
             }
+
+            _next.onClick.AddListener(Next);
+            _back.onClick.AddListener(Back);
 
             _zoomedEkg.onClick.AddListener(CancelZoom);
         }

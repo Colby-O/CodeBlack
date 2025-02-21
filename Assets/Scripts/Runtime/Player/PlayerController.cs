@@ -19,6 +19,7 @@ namespace CodeBlack.Player
 		[SerializeField] private CharacterController _characterController;
 		[SerializeField] private PlayerInput _playerInput;
 		[SerializeField] private AudioSource _audioSource;
+        [SerializeField] private GameObject _tablet;
 
 		[Header("Body Part References")]
 		[SerializeField] private GameObject _head;
@@ -33,6 +34,7 @@ namespace CodeBlack.Player
 		private InputAction _pauseAction;
         private InputAction _crouchAction;
         private InputAction _shiftAction;
+        private InputAction _openAction;
 
         private Vector3 _playerRotation;
 		private Vector3 _headRotation;
@@ -56,6 +58,8 @@ namespace CodeBlack.Player
         
         private bool _running = false;
         [SerializeField] private float _cartForward;
+
+        private bool _isTabeletOpen = false;
 
         //[SerializeField] private float _pushPower = 2.0f;
         //[SerializeField] private float _weight = 6.0f;
@@ -190,6 +194,21 @@ namespace CodeBlack.Player
             if (other.CompareTag("CartHandle")) _inCartRange = false;
         }
 
+        private void ToogleTablet(InputAction.CallbackContext e)
+        {
+            _isTabeletOpen = !_isTabeletOpen;
+            _tablet.SetActive(_isTabeletOpen);
+
+            if (_isTabeletOpen)
+            {
+                CodeBlackGameManager.isPaused = true;
+            }
+            else
+            {
+                CodeBlackGameManager.isPaused = false;
+            }
+        }
+
         private void Awake()
         {
             _cart = GameObject.FindWithTag("Cart").transform;
@@ -197,7 +216,9 @@ namespace CodeBlack.Player
 			if (_characterController == null) _characterController = GetComponent<CharacterController>();
 			if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
 			if (_audioSource == null) _audioSource = GetComponent<AudioSource>();
-            
+
+            _tablet.SetActive(false);
+
 			_headRotation = _head.transform.localRotation.eulerAngles;
             _crouchStartPos = _head.transform.localPosition.y;
             _crouchEndPos = _crouchStartPos - _crouchDist;
@@ -207,7 +228,9 @@ namespace CodeBlack.Player
             _interactAction = _playerInput.actions["MoveCart"];
             _crouchAction = _playerInput.actions["Crouch"];
             _shiftAction = _playerInput.actions["Sprint"];
+            _openAction = _playerInput.actions["OpenTablet"];
 
+            _openAction.performed += ToogleTablet;
             _interactAction.performed += HandleInteractAction;
             _interactAction.canceled += HandleEndInteractAction;
             _moveAction.performed += HandleMovementAction;
@@ -324,7 +347,7 @@ namespace CodeBlack.Player
 
         private void Update()
 		{
-            if (!_characterController.enabled) return;
+            if (!_characterController.enabled || _isTabeletOpen) return;
 
             ProcessView();
 			ProcessMovement();
