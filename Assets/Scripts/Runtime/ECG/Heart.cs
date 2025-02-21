@@ -78,9 +78,9 @@ namespace CodeBlack.ECG
         }
 
         public bool HasVentricularFibrillation() => _ventricularFibrillation;
-        public void SetVentricularFibrillation(bool state, bool autoRevive = true)
+        public void SetVentricularFibrillation(bool state, bool autoRevive = true, bool force = false)
         {
-            if (state == _ventricularFibrillation || _triggerCardiacArrest) return;
+            if ((state == _ventricularFibrillation || _triggerCardiacArrest) && !force) return;
             if (state)
             {
                 CauseCardiacArrest(true);

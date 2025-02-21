@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PatientSettings
   m_EditorClassIdentifier: 
   tickRate: 1
+  chanceToHaveDiabetes: 0.4
   diabetesAttackChance: 450
   diabetesAttackBloodSugarValue: 330
   tooMuchInsulinHungerLevel: 0.2
@@ -44,7 +45,7 @@ MonoBehaviour:
   reviveTime: 105
   restingHeartRateLow: 70
   restingHeartRateHigh: 130
-  eventProb: 0.001
+  eventProb: 0.005882355
   caProb: 0.01
   afProb: 0.01
   vfProb: 0.01

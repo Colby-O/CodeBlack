@@ -44,13 +44,23 @@ namespace CodeBlack
 
         private HeartCondition _last;
 
+        public void StartHeart()
+        {
+            _heart.Revive();
+        }
+
+        public void StopHeart()
+        {
+            _heart.CauseCardiacArrest(true);
+        }
+
         public void Show(HeartCondition condition)
         {
             _heart.SetHeartRate(58f / 60f);
             _heart.SetAtrialFibrillation(false);
             _heart.SetBlock(0);
             _heart.SetJWave(0);
-            _heart.SetVentricularFibrillation(false, false);
+            _heart.SetVentricularFibrillation(false, false, true);
 
             foreach (GameObject obj in _cures.Values)
             {
@@ -86,17 +96,17 @@ namespace CodeBlack
                     _traetment.text = $"\n• Heart rate can be raised with Adrenaline.\n\n• If blood suger is low treat with food.\n\n • If SpO2 is low treat with oxygen.";
                     break;
                 case HeartCondition.HeartBlock:
-                    _heart.SetBlock(1);
+                    _heart.SetBlock(2);
 
                     _descripton.text = $"A contition that causes the heart to skip a beat. On the EKG this is seen as a one or two extra p-waves (tiny waves) between beats. A Heart Block is caused by low CRP levels. This condition can cause Cardiac Arrest if left untreated.";
-                    _traetment.text = $"\n• Heart Block can be treated with Atropine.\n• After the patient must be treated with Ibuprofen treated to prevent further eposides.";
+                    _traetment.text = $"\n• Heart Block can be treated with Atropine.\n• After the patient must be treated with Ibuprofen to prevent further eposides.";
 
                     break;
                 case HeartCondition.AtrialFibrillation:
                     _heart.SetAtrialFibrillation(true);
 
                     _descripton.text = $"A contition that causes the heart to beat in irregular intervals. Atrial Fibrillation is caused by a elvated heart rate from elevate CRP levels. This condition can cause Cardiac Arrest if left untreated.";
-                    _traetment.text = $"\n• Atrial Fibrillation can be treated with Calcium Channel Blockers.\n• After the patient must be treated with Digoxin treated to prevent further eposides.";
+                    _traetment.text = $"\n• Atrial Fibrillation can be treated with Calcium Channel Blockers.\n• After the patient must be treated with Digoxin to prevent further eposides.";
                     break;
                 case HeartCondition.VentricularFibrillation:
                     _heart.SetVentricularFibrillation(true);
@@ -141,7 +151,7 @@ namespace CodeBlack
             return _pos != 0;
         }
 
-        private void OnEnable()
+        private void Awake()
         {
             Show((HeartCondition)_pos);
         }
@@ -151,7 +161,7 @@ namespace CodeBlack
             _bpm.text = ((int)_heart.Bpm()).ToString();
             _bloodPressure.text = $"{(int)_heart.Sbp()}/{(int)_heart.Dbp()}";
 
-            if (_heart.IsDead() && _last != HeartCondition.CardiacArrest && _last != HeartCondition.Bradycardia)
+            if (_heart.IsDead() && _last != HeartCondition.CardiacArrest && _last != HeartCondition.VentricularFibrillation)
             {
                 _heart.Revive();
             }

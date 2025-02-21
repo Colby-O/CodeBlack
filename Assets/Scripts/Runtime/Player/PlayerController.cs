@@ -21,6 +21,9 @@ namespace CodeBlack.Player
 		[SerializeField] private PlayerInput _playerInput;
 		[SerializeField] private AudioSource _audioSource;
         [SerializeField] private GameObject _tablet;
+        [SerializeField] private AudioClip _walkingAC;
+        [SerializeField] private AudioClip _cartAC;
+
 
 		[Header("Body Part References")]
 		[SerializeField] private GameObject _head;
@@ -43,7 +46,7 @@ namespace CodeBlack.Player
 		private Vector2 _rawMovementInput;
 		private Vector2 _rawViewInput;
 
-		private Vector3 _movementSpeed;
+		[SerializeField, ReadOnly] private Vector3 _movementSpeed;
 		private Vector3 _movementSpeedVel;
         private bool _inCartRange;
         private bool _pushingCart;
@@ -295,7 +298,10 @@ namespace CodeBlack.Player
 
         private void HandleEndInteractAction(InputAction.CallbackContext e)
         {
-            if (_pushingCart) ExitCart();
+            if (_pushingCart)
+            {
+                ExitCart();
+            }
         }
 
         private void ExitCart()
@@ -313,6 +319,8 @@ namespace CodeBlack.Player
 
             _headRotation.y = 0;
             _head.transform.localRotation = Quaternion.Euler(_headRotation);
+
+            _audioSource.Stop();
         }
 
         private void EnterCart()
@@ -337,6 +345,8 @@ namespace CodeBlack.Player
 
             _cart.SetParent(transform, true);
             _movementSpeed = Vector3.zero;
+
+            _audioSource.Stop();
         }
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -362,6 +372,26 @@ namespace CodeBlack.Player
         private void LateUpdate()
         {
             if (_inCartRange && !IsPushingCart()) GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().SetHint("Hold 'Space' To Push");
+
+            if ((new Vector2(_movementSpeed.x, _movementSpeed.z)).magnitude > 0.01f)
+            {
+                if (IsPushingCart() && !_audioSource.isPlaying) 
+                {
+                    _audioSource.Stop();
+                    _audioSource.clip = _cartAC;
+                    _audioSource.Play();
+                }
+                else if (!_audioSource.isPlaying)
+                {
+                    _audioSource.Stop();
+                    _audioSource.clip = _walkingAC;
+                    _audioSource.Play();
+                }
+            }
+            else
+            {
+                _audioSource.Stop();
+            }
         }
     }
 }

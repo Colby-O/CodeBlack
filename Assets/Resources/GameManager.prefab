@@ -320,6 +320,9 @@ MonoBehaviour:
   - id: 0
     name: ButtonClick
     audio: {fileID: 8300000, guid: 820ec37316cdb7140b3331ccba92e8ed, type: 3}
+  - id: 1
+    name: CorrectTreatment
+    audio: {fileID: 8300000, guid: a28c72b532585ab45980a749ad178cae, type: 3}
   _musicSource: {fileID: 9093036996383888675}
   _ambientSource: {fileID: 7362310150003991543}
   _sfxMainSource: {fileID: 8509059032369305780}
