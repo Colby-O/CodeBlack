@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d1fe8cb2a8321ff87dde9ff81b44ae, type: 3}
   m_Name: PatientSettings
   m_EditorClassIdentifier: 
-  tickRate: 2
+  tickRate: 0.25
   stage1TickRate: 2
   stage2TickRate: 1
   stage3TickRate: 0.8
   stage4TickRate: 0.7
   stage5TickRate: 0.6
-  stage6TickRate: 0.5
-  stage7TickRate: 0.4
-  stage8TickRate: 0.3
+  stage6TickRate: 0.4
+  stage7TickRate: 0.325
+  stage8TickRate: 0.25
   coughTimeLow: 3
-  coughTimeHigh: 7
+  coughTimeHigh: 15
   coughSounds:
   - {fileID: 8300000, guid: 552551bcd6a6174b0bae48a2e7744114, type: 3}
   - {fileID: 8300000, guid: c83ed204d06b1172a8448d8999b5e80a, type: 3}
@@ -53,7 +53,7 @@ MonoBehaviour:
   oxygenMinValue: 20
   oxygenDangerousLevel: 65
   oxygenDeathValue: 30
-  hungerDepletionRate: 0.0013
+  hungerDepletionRate: 0.00166
   hungerCutoff: 0.7
   bloodSugarHungerLow: 20
   bloodSugarNormalValue: 120
@@ -66,11 +66,11 @@ MonoBehaviour:
   bloodSugarHeartDropRate: 1
   bloodSugarDangerousLow: 80
   bloodSugarDangerousHigh: 200
-  reviveTime: 1
+  reviveTime: 30
   restingHeartRateLow: 70
   restingHeartRateHigh: 130
-  eventProb: 0.002
-  caProb: 1
+  eventProb: 0.0025
+  caProb: 0.024
   afProb: 0.01
   vfProb: 0.01
   blockProb: 0.01

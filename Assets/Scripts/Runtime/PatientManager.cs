@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PlazmaGames.Core.Utils;
 using UnityEngine;
 
 namespace CodeBlack {
@@ -24,6 +25,7 @@ namespace CodeBlack {
         public bool AnyPatientsFlatLine() => _patients.Any(p => p.IsDead() && !p.IsDeadForReal());
         public bool AnyPatientsDeadForReal() => _patients.Any(p => p.IsDeadForReal());
         public bool AllPatientsDeadForReal() => _patients.All(p => p.IsDeadForReal());
+        public bool AllPatientsDead() => _patients.All(p => p.IsDead());
 
         private List<Action<Patient>> _patientDeadCallbacks = new();
         public void SubscribePatientDead(Action<Patient> callback) => _patientDeadCallbacks.Add(callback);
@@ -59,6 +61,10 @@ namespace CodeBlack {
             {
                 if (!_nightEnded) EmitNightEnd();
                 _nightEnded = true;
+                if (!AllPatientsDead())
+                {
+                    _patients.ForEach(p => p.Kill());
+                }
             }
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 6) _settings.tickRate = _settings.stage8TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 5) _settings.tickRate = _settings.stage7TickRate;
@@ -67,6 +73,7 @@ namespace CodeBlack {
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 2) _settings.tickRate = _settings.stage4TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 1) _settings.tickRate = _settings.stage3TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 0) _settings.tickRate = _settings.stage2TickRate;
+            
         }
     }
 }

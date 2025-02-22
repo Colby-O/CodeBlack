@@ -106,6 +106,11 @@ namespace CodeBlack
 
         private Transform _body;
 
+        public void Kill()
+        { 
+            if (CanCardiacArrest()) _heart.CauseCardiacArrest(true);
+        }
+
         private void TryCough()
         {
             if (_nextCough == 0)
