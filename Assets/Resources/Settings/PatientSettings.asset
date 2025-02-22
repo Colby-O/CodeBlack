@@ -64,3 +64,4 @@ MonoBehaviour:
   achRateRand: 0
   crpRateRand: 0
   bnpRateRand: 0
+  heartGracePeriod: 5.5

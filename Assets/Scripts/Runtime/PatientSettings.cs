@@ -73,5 +73,6 @@ namespace CodeBlack
         public float achRateRand = 0.001f;
         public float crpRateRand = 0.001f;
         public float bnpRateRand = 0.01f;
+        public float heartGracePeriod = 5f;
     }
 }
