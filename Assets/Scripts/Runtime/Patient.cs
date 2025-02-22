@@ -138,7 +138,7 @@ namespace CodeBlack
             if (_generateRandomInfo) _name = NameGenerator.GenerateName();
             if (_generateRandomInfo) _age = Random.Range(18, 70).ToString();
             if (_generateRandomInfo) _sex = Random.value < 0.5 ? "M" : "F";
-            _diabetes = Random.value < 0.4;
+            _diabetes = Random.value < _settings.chanceToHaveDiabetes;
 
             _patientText = transform.Find("MonitorDisplay/PatientText").GetComponent<TMP_Text>();
             _bpmText = transform.Find("MonitorDisplay/BpmText").GetComponent<TMP_Text>();
@@ -529,7 +529,7 @@ namespace CodeBlack
                 _meanHeartRate = MapRange(
                     _bloodSugar,
                     _settings.bloodSugarDangerousHigh, _settings.diabetesAttackBloodSugarValue,
-                    _restingHeartRate, 280);
+                    _restingHeartRate, 290);
 
             if (!_god && _tick % 5 == 0)
             {
@@ -565,7 +565,7 @@ namespace CodeBlack
             _bnp = Mathf.Clamp(_bnp, 200, 400);
 
             float newHeartRate = -1;
-            if (_ach > 2f) newHeartRate = Mathf.Lerp(60f / 250f, 60f / _meanHeartRate, Mathf.Clamp(1f - (_ach - 2f) / 2f, 0, 1));
+            if (_ach > 2f) newHeartRate = Mathf.Lerp(60f / 290f, 60f / _meanHeartRate, Mathf.Clamp(1f - (_ach - 2f) / 2f, 0, 1));
             else newHeartRate = Mathf.Lerp(60f / _meanHeartRate, 3f, Mathf.Clamp(2f - _ach, 0, 1));
             if (newHeartRate > -1) _heart.SetHeartRate(newHeartRate);
 
