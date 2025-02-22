@@ -506,7 +506,7 @@ namespace CodeBlack
 
             if (_heart.Bpm() < 22 || _heart.Bpm() > 190 || _heart.GetAtrialFibrillationState() || _heart.GetBlockState())
             {
-                if (Random.value < _settings.caProb) _heart.CauseCardiacArrest(true);
+                if (!IsDead() && Random.value < _settings.caProb) _heart.CauseCardiacArrest(true);
             }
 
             if (_crp <= 1)
@@ -529,7 +529,7 @@ namespace CodeBlack
             }
             else if (_temp <= _settings.tempDeadLevel)
             {
-                if (Random.value < _settings.caProb) _heart.CauseCardiacArrest(true);
+                if (!IsDead() && Random.value < _settings.caProb) _heart.CauseCardiacArrest(true);
             }
             else
             {
