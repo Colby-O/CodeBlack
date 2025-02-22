@@ -383,6 +383,20 @@ namespace CodeBlack.Player
             ProcessView();
 			ProcessMovement();
 			ProcessGravity();
+
+            // Glitch Through Wall Patch
+            if (_pushingCart)
+            {
+                if (_rawMovementInput.y >= 0f)
+                {
+                    _characterController.center = new Vector3(_cartForward, 0, 0);
+                }
+                else
+                {
+                    _characterController.center = Vector3.zero;
+                }
+            }
+
 			if (!_lockMovement) _characterController.Move(transform.TransformDirection(_movementSpeed));
 
             if (_interactAction.IsInProgress()) HandleInteractAction(default);

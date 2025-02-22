@@ -72,8 +72,6 @@ namespace CodeBlack.UI
 
             _bg.SetActive(true);
             _ekg.SetActive(true);
-
-            if (GameManager.HasMonoSystem<IAudioMonoSystem>()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(0, PlazmaGames.Audio.AudioType.Music, true, false);
         }
 
         public override void Hide()
