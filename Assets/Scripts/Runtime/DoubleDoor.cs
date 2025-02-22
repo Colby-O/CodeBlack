@@ -10,6 +10,7 @@ namespace CodeBlack
         private Transform _pivot1;
         private Transform _pivot2;
         private bool _isOpen = false;
+        [SerializeField] private bool _isLocked = false;
         private bool _inProgress = false;
         [SerializeField] float _openSpeed = 1.5f;
 
@@ -19,8 +20,15 @@ namespace CodeBlack
             _pivot2 = transform.GetChild(1);
         }
 
+        public void SetLockedState(bool state)
+        {
+            _isLocked = state;
+        }
+
         public void Interact(Interactor interactor)
         {
+            if (_isLocked) return;
+
             if (_isOpen) Close();
             else Open(interactor.transform);
         }
@@ -35,7 +43,7 @@ namespace CodeBlack
         
         public void Open(Transform from)
         {
-            if (_isOpen) return;
+            if (_isOpen || _isLocked) return;
             if (_inProgress) return;
             _isOpen = true;
             _inProgress = true;
@@ -73,7 +81,7 @@ namespace CodeBlack
 
         public void Close()
         {
-            if (!_isOpen) return;
+            if (!_isOpen || _isLocked) return;
             if (_inProgress) return;
             _inProgress = true;
             _isOpen = false;

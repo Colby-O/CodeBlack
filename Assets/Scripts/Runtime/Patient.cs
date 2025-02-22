@@ -24,9 +24,12 @@ namespace CodeBlack
         private Heart _heart;
         private EKG _ekg;
 
+        [SerializeField] private bool _generateRandomInfo = true;
+
         [SerializeField, ReadOnly] private bool _isPaused = false;
 
         [SerializeField] private MeshRenderer _icon;
+        [SerializeField] private bool _hasIcon = true;
 
         [SerializeField] private bool _god = false;
 
@@ -112,10 +115,10 @@ namespace CodeBlack
         private void Awake()
         {
             _startTime = Time.time;
-            
-            _name = NameGenerator.GenerateName();
-            _age = Random.Range(18, 70).ToString();
-            _sex = Random.value < 0.5 ? "M" : "F";
+
+            if (_generateRandomInfo) _name = NameGenerator.GenerateName();
+            if (_generateRandomInfo) _age = Random.Range(18, 70).ToString();
+            if (_generateRandomInfo) _sex = Random.value < 0.5 ? "M" : "F";
             _diabetes = Random.value < 0.4;
 
             _patientText = transform.Find("MonitorDisplay/PatientText").GetComponent<TMP_Text>();
@@ -129,8 +132,7 @@ namespace CodeBlack
             _manager = transform.parent.GetComponent<PatientManager>();
             _heart = GetComponentInChildren<Heart>();
             _ekg = GetComponentInChildren<EKG>();
-            if (transform.Find("Icon").TryGetComponent<MeshRenderer>(out MeshRenderer icon))
-                _icon = icon;
+            if (_hasIcon && transform.Find("Icon").TryGetComponent<MeshRenderer>(out MeshRenderer icon)) _icon = icon;
             else _icon = null;
 
             _temp = _settings.normalTemp;
@@ -146,9 +148,14 @@ namespace CodeBlack
             _ekg.SetHeart(_heart);
         }
 
+        public void SetAchRasing()
+        {
+            _achRaising = true;
+        }
+
         private void SetPatientText()
         {
-            _patientText.text = $"{_name} - {_sex} - {_age}";
+            _patientText.text = $"{_name.Replace('\r', ' ')} - {_sex.Replace('\r', ' ')} - {_age.Replace('\r', ' ')}";
         }
 
         public bool IsDeadForReal() => _heart.IsDead() && _heart.DeadTime() > _settings.reviveTime;
@@ -175,10 +182,13 @@ namespace CodeBlack
             _sugarsText.text = $"{(int)_bloodSugar}";
             _oxygenText.text = $"{(int)_oxygen}";
 
+            if (_god) return;
+
             if (IsDeadForReal())
             {
                 if (!_wasDeadForReal)
                 {
+                    _heart.SetSound(false);
                     _wasDeadForReal = true;
                     _manager.EmitPatientDeadForReal(this);
                 }
