@@ -409,6 +409,7 @@ namespace CodeBlack
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
                         _diabetesAttacking = false;
                         _hunger = 1;
+                        NextBloodSugarNormalValue();
                     }
                     else
                     {

@@ -50,7 +50,7 @@ namespace CodeBlack
             _heart.SetAtrialFibrillation(false);
             _heart.SetBlock(0);
             _heart.SetJWave(0);
-            _heart.SetVentricularFibrillation(false, false);
+            _heart.SetVentricularFibrillation(false, false, true);
 
             foreach (GameObject obj in _cures.Values)
             {
@@ -151,7 +151,7 @@ namespace CodeBlack
             _bpm.text = ((int)_heart.Bpm()).ToString();
             _bloodPressure.text = $"{(int)_heart.Sbp()}/{(int)_heart.Dbp()}";
 
-            if (_heart.IsDead() && _last != HeartCondition.CardiacArrest && _last != HeartCondition.Bradycardia)
+            if (_heart.IsDead() && _last != HeartCondition.CardiacArrest && _last != HeartCondition.VentricularFibrillation)
             {
                 _heart.Revive();
             }
