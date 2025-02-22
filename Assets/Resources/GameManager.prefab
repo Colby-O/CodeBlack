@@ -319,14 +319,17 @@ MonoBehaviour:
   - id: 3
     name: Pause
     audio: {fileID: 8300000, guid: 00023a7cbff1edd40bd19e26eefb21e3, type: 3}
+  - id: 4
+    name: Ending
+    audio: {fileID: 8300000, guid: 4c5ea2742c534fe4791786a7fa5e6a2b, type: 3}
   _ambientSounds: []
   _sfxSounds:
   - id: 0
     name: ButtonClick
-    audio: {fileID: 8300000, guid: 820ec37316cdb7140b3331ccba92e8ed, type: 3}
+    audio: {fileID: 8300000, guid: ca9aef3f24d4067488a4c46548dd8d5c, type: 3}
   - id: 1
     name: CorrectTreatment
-    audio: {fileID: 8300000, guid: a28c72b532585ab45980a749ad178cae, type: 3}
+    audio: {fileID: 8300000, guid: 0ae1e47f590164f4aabbb7050effad47, type: 3}
   _musicSource: {fileID: 9093036996383888675}
   _ambientSource: {fileID: 7362310150003991543}
   _sfxMainSource: {fileID: 8509059032369305780}

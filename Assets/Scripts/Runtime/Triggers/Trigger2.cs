@@ -1,4 +1,5 @@
 using CodeBlack;
+using CodeBlack.ECG;
 using CodeBlack.Trigger;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
@@ -14,17 +15,25 @@ public class Trigger2 : Trigger
     [SerializeField] private Patient _you;
     [SerializeField] private GameObject _devil;
     [SerializeField] private AudioClip _clip;
+    [SerializeField] private AudioClip _final;
+    [SerializeField] private Heart _heart;
 
     private bool _hasRan = false;
-    private bool _hasJumpscared;
 
     private float _timer = 0;
+    private float _timer2 = 0;
+
+    private bool _hasDied = false;
+
 
     protected override void OnEnter()
     {
-        _hasRan = false;
+        _hasRan = true;
+        _hasDied = false;
+        _timer2 = 0;
         CodeBlackGameManager.player.SetHeadPostion(_target.position);
         _you.SetAchRasing();
+        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_final, PlazmaGames.Audio.AudioType.Music, false, false);
     }
 
     protected override void OnExit()
@@ -40,11 +49,12 @@ public class Trigger2 : Trigger
 
     private IEnumerator Jumpscare()
     {
+        GameManager.GetMonoSystem<IAudioMonoSystem>().StopAudio(PlazmaGames.Audio.AudioType.Music);
         yield return new WaitForSeconds(Random.Range(1f, 3f));
         CodeBlackGameManager.player.SetHeadPostion(_target2.position, true);
         yield return new WaitForSeconds(Random.Range(2f, 10f));
         _devil.SetActive(true);
-        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_clip, PlazmaGames.Audio.AudioType.Sfx, true, true);
+        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_clip, PlazmaGames.Audio.AudioType.Sfx, false, true);
         yield return new WaitForSeconds(Random.Range(3f, 6f));
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
@@ -52,20 +62,20 @@ public class Trigger2 : Trigger
 
     private void Update()
     {
-        if (_you.IsDead() && !_hasRan)
+        if (!_hasRan || !_isTriggeredEnter) return;
+
+        if (_you.IsDead())
         {
-            _hasRan = true;
-            Debug.Log("Trigger Jumpscare");
+            _hasDied = true;
             StartCoroutine(Jumpscare());
         }
 
-        if (_hasRan && !_hasJumpscared && _timer > 60f)
+        if (!_hasDied && _timer2 > _final.length)
         {
-            RestartGame();
+            _hasDied = true;
+            _heart.CauseCardiacArrest(true);
+            StartCoroutine(Jumpscare());
         }
-        else if (_hasRan && !_hasJumpscared)
-        {
-            _timer += Time.deltaTime;
-        }
+        else _timer2 += Time.deltaTime;
     }
 }
