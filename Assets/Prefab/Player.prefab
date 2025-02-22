@@ -937,8 +937,6 @@ MonoBehaviour:
   _playerInput: {fileID: 5204569643619317350}
   _audioSource: {fileID: 2283957415099872133}
   _tablet: {fileID: 7385433831931942541}
-  _walkingAC: {fileID: 0}
-  _cartAC: {fileID: 8300000, guid: 0d27ef2cd333aa24c9727790aa7553d9, type: 3}
   _head: {fileID: 2042899521309919002}
   _gravityMultiplier: 3
   _movementSpeed: {x: 0, y: 0, z: 0}
@@ -1028,7 +1026,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
