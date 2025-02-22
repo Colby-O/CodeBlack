@@ -1,4 +1,5 @@
 using CodeBlack;
+using CodeBlack.ECG;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
 using System.Collections;
@@ -11,6 +12,7 @@ public class PAController : MonoBehaviour
     [SerializeField] private AudioSource _as;
     [SerializeField] private float _repeatTime = 10f;
     [SerializeField] private AudioClip _everyoneDiedClip;
+    [SerializeField] private DoubleDoor _door;
 
     private bool _isPlaying;
 
@@ -19,9 +21,12 @@ public class PAController : MonoBehaviour
 
     private IEnumerator RepeatAnnouncement(Patient p)
     {
+        while (GameManager.GetMonoSystem<IAudioMonoSystem>().IsPlaying(PlazmaGames.Audio.AudioType.Ambient))
+        {
+            yield return null;
+        }
+
         if (!_pm.AllPatientsDeadForReal() && !p.IsDeadForReal()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(p.GetDyingAudiio(), PlazmaGames.Audio.AudioType.Ambient, false, false);
-        yield return new WaitForSeconds(_repeatTime  + Random.Range(0f, 15f));
-        if (p.IsDead() && !p.IsDeadForReal()) StartCoroutine(RepeatAnnouncement(p));
     }
 
     private void AnnouncementDying(Patient p)
@@ -39,6 +44,7 @@ public class PAController : MonoBehaviour
 
     private void End()
     {
+        _door.SetLockedState(false);
         FindObjectOfType<LightController>().SetMainLightLevel(0);
         _endingMap.SetActive(true);
     }
@@ -57,6 +63,8 @@ public class PAController : MonoBehaviour
         if (_as == null) _as = GetComponent<AudioSource>();
 
         _endingMap.SetActive(false);
+
+        _door.SetLockedState(true);
 
         _pm.SubscribePatientDead(AnnouncementDying);
         _pm.SubscribePatientDeadForReal(AnnouncementDeath);

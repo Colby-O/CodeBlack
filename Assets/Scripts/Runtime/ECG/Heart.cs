@@ -106,6 +106,13 @@ namespace CodeBlack.ECG
 			return _heartBlock != 0;
 		}
 
+		public void SetSound(bool sound)
+		{
+			_playSound = sound;
+			GetComponent<AudioSource>().Stop();
+            GetComponent<AudioSource>().enabled = sound;
+        }
+
 		public bool HasCardiacArrest() => _triggerCardiacArrest;
 
 		public bool IsDead() => _triggerCardiacArrest && !_ventricularFibrillation;
@@ -361,7 +368,13 @@ namespace CodeBlack.ECG
 			}
 		}
 
-		private void Awake()
+        private void OnEnable()
+        {
+			_prevBeats.Clear();
+            for (int i = 0; i < _bmpBufferSize; i++) _prevBeats.Add(0.6f);
+        }
+
+        private void Awake()
 		{
 			for (int i = 0; i < _bmpBufferSize; i++) _prevBeats.Add(0.6f);
 			intervalArrayP = new float[5];
@@ -377,7 +390,6 @@ namespace CodeBlack.ECG
 		{
 			_triggerSANode = true; 
 		}
-
 
 		private void Update()
 		{

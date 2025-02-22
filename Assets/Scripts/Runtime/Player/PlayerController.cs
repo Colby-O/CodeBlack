@@ -65,6 +65,8 @@ namespace CodeBlack.Player
 
         private bool _isTabeletOpen = false;
 
+        private bool _lockMovement;
+
         //[SerializeField] private float _pushPower = 2.0f;
         //[SerializeField] private float _weight = 6.0f;
 
@@ -222,6 +224,8 @@ namespace CodeBlack.Player
 			if (_playerInput == null) _playerInput = GetComponent<PlayerInput>();
 			if (_audioSource == null) _audioSource = GetComponent<AudioSource>();
 
+            _lockMovement = false;
+
             _tablet.SetActive(false);
 
 			_headRotation = _head.transform.localRotation.eulerAngles;
@@ -349,6 +353,14 @@ namespace CodeBlack.Player
             _audioSource.Stop();
         }
 
+        public void SetHeadPostion(Vector3 pos, bool lockRot = false)
+        {
+            _lockMovement = true;
+            _characterController.enabled = false;
+            transform.position = pos;
+            if (!lockRot) _characterController.enabled = true;
+        }
+
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
             if (hit.transform.TryGetComponent(out Door door))
@@ -364,7 +376,7 @@ namespace CodeBlack.Player
             ProcessView();
 			ProcessMovement();
 			ProcessGravity();
-			_characterController.Move(transform.TransformDirection(_movementSpeed));
+			if (!_lockMovement) _characterController.Move(transform.TransformDirection(_movementSpeed));
 
             if (_interactAction.IsInProgress()) HandleInteractAction(default);
 		}
