@@ -15,6 +15,7 @@ namespace CodeBlack.Trigger
         [SerializeField, ReadOnly] protected bool _isTriggered = false;
         [SerializeField, ReadOnly] protected bool _isTriggeredOut = false;
 
+        [SerializeField, ReadOnly] protected bool _isTriggeredEnter = false;
         protected abstract void OnEnter();
 
         protected abstract void OnExit();
@@ -33,6 +34,7 @@ namespace CodeBlack.Trigger
             if (other.gameObject.CompareTag("player"))
             {
                 if (_isTriggered || !Condition()) return;
+                _isTriggeredEnter = true;
                 _isTriggered = true;
                 _isTriggeredOut = false;
                 OnEnter();
