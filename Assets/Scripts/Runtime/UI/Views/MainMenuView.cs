@@ -28,12 +28,21 @@ namespace CodeBlack.UI
         [SerializeField] private Heart _heart;
 
         [SerializeField] private SerializableDictionary<Languages, List<string>> _titles;
+        private bool _inHelp = false;
 
-        private void Play()
+        private void PlayReal()
         {
             _bg.SetActive(false);
             _ekg.SetActive(false);
             GameManager.EmitEvent(new CBEvents.Start());
+            _inHelp = false;
+            transform.Find("Explanation").gameObject.SetActive(false);
+        }
+
+        private void Play()
+        {
+            _inHelp = true;
+            transform.Find("Explanation").gameObject.SetActive(true);
         }
 
         private void Settings()
@@ -80,6 +89,13 @@ namespace CodeBlack.UI
 
         private void Update()
         {
+            if (_inHelp)
+            {
+                if (Input.anyKeyDown)
+                {
+                    PlayReal();
+                }
+            }
             _title.text = _titles[CodeBlackGameManager.language][0];
             _playT.text = _titles[CodeBlackGameManager.language][1];
             _settingsT.text = _titles[CodeBlackGameManager.language][2];
