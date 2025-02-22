@@ -3,9 +3,12 @@ using CodeBlack.ECG;
 using TMPro;
 using PlazmaGames.Attribute;
 using CodeBlack.Helpers;
+using PlazmaGames.Animation;
 using PlazmaGames.Core;
 using PlazmaGames.Audio;
 using PlazmaGames.Runtime.DataStructures;
+using Unity.Mathematics;
+using Random = UnityEngine.Random;
 
 namespace CodeBlack
 {
@@ -80,6 +83,8 @@ namespace CodeBlack
 
         [SerializeField] private bool _tempLowering = false;
 
+        private float _nextCough = 0;
+
         private bool _wasDead = false;
         private bool _wasHealthy = true;
         private bool _wasDeadForReal = false;
@@ -98,6 +103,21 @@ namespace CodeBlack
         
         [Header("View")]
         [SerializeField] private int _tick = 0;
+
+        private Transform _body;
+
+        private void TryCough()
+        {
+            if ((int)Time.time == (int)_nextCough)
+            {
+                if (!IsDead() && !IsSick()) _audioSource.PlayOneShot(_settings.coughSounds[Random.Range(0, _settings.coughSounds.Count - 1)]);
+                _nextCough = Time.time + Random.Range(_settings.coughTimeLow, _settings.coughTimeHigh);
+            }
+            else if (_nextCough == 0)
+            {
+                _nextCough = Time.time + Random.Range(_settings.coughTimeLow, _settings.coughTimeHigh);
+            }
+        }
 
         public AudioClip GetDyingAudiio()
         {
@@ -129,6 +149,7 @@ namespace CodeBlack
             transform.Find("MonitorDisplay/RoomTitle").GetComponent<TMP_Text>().text = _room;
 
             _manager = transform.parent.GetComponent<PatientManager>();
+            _body = transform.Find("Body");
             _heart = GetComponentInChildren<Heart>();
             _ekg = GetComponentInChildren<EKG>();
             if (_hasIcon && transform.Find("Icon").TryGetComponent<MeshRenderer>(out MeshRenderer icon)) _icon = icon;
@@ -145,6 +166,8 @@ namespace CodeBlack
             SetPatientText();
 
             _ekg.SetHeart(_heart);
+            
+            TryCough();
         }
 
         public void SetAchRasing()
@@ -164,6 +187,7 @@ namespace CodeBlack
 
         private void FixedUpdate()
         {
+            TryCough();
             _isPaused = CodeBlackGameManager.isPaused || !CodeBlackGameManager.hasStarted;
 
             if (_icon != null)
@@ -235,7 +259,12 @@ namespace CodeBlack
             switch (cure)
             {
                 case Cure.Type.Adrenaline:
-                    if (_achLowering)
+                    if (_achRaising)
+                    {
+                        if (CanCardiacArrest()) _heart.CauseCardiacArrest(true);
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    }
+                    else if (_achLowering)
                     {
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
 
@@ -250,7 +279,12 @@ namespace CodeBlack
                     }
                     break;
                 case Cure.Type.BetaBlockers:
-                    if (_achRaising)
+                    if (_achLowering)
+                    {
+                        if (CanCardiacArrest()) _heart.CauseCardiacArrest(true);
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    }
+                    else if (_achRaising)
                     {
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
 
@@ -267,7 +301,6 @@ namespace CodeBlack
                 case Cure.Type.CalciumBlockers:
                     if (_heart.HasAtrialFibrillation())
                     {
-
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
 
                         _heart.SetAtrialFibrillation(false);
@@ -294,7 +327,12 @@ namespace CodeBlack
                     }
                     break;
                 case Cure.Type.Digoxin:
-                    if (_crpRaising)
+                    if (_crpLowering)
+                    {
+                        if (CanCardiacArrest()) _heart.CauseCardiacArrest(true);
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    }
+                    else if (_crpRaising)
                     {
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
 
@@ -309,7 +347,12 @@ namespace CodeBlack
                     }
                     break;
                 case Cure.Type.Ibuprofen:
-                    if (_crpLowering)
+                    if (_crpRaising)
+                    {
+                        if (CanCardiacArrest()) _heart.CauseCardiacArrest(true);
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    }
+                    else if (_crpLowering)
                     {
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
 
@@ -324,14 +367,18 @@ namespace CodeBlack
                     }
                     break;
                 case Cure.Type.Furosemide:
-
                     if (_bnpRaising) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
-                    else GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    else
+                    {
+                        if (CanCardiacArrest()) _heart.CauseCardiacArrest(true);
+                        GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("IncorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
+                    }
 
                     _bnpRaising = false;
                     _bnp = 200;
                     break;
                 case Cure.Type.Defibrillator:
+                    DefibAnimation();
                     if (_heart.HasVentricularFibrillation())
                     {
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
@@ -356,6 +403,7 @@ namespace CodeBlack
                     {
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
                         _diabetesAttacking = false;
+                        _hunger = 1;
                     }
                     else
                     {
@@ -390,6 +438,18 @@ namespace CodeBlack
                     _oxygenAttacking = false;
                     break;
             }
+        }
+
+        private void DefibAnimation()
+        {
+            float rotX = _body.localRotation.eulerAngles.x;
+            float rotY = _body.localRotation.eulerAngles.y;
+            float rotZ = _body.localRotation.eulerAngles.z;
+            GameManager.GetMonoSystem<IAnimationMonoSystem>().RequestAnimation(
+                this,
+                _settings.defibAniDuration,
+                (progress) => _body.localRotation = Quaternion.Euler(rotX, rotY, rotZ + Mathf.Sin(progress * _settings.defibAniSpeed) * _settings.defibAniAmplitude),
+                () => _body.localRotation = Quaternion.Euler(rotX, rotY, rotZ));
         }
 
         private void Revive()

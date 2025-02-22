@@ -18,6 +18,16 @@ namespace CodeBlack
         public float stage7TickRate = 0.75f;
         public float stage8TickRate = 0.75f;
 
+        [Header("Coughs")]
+        public int coughTimeLow = 3;
+        public int coughTimeHigh = 30;
+        public List<AudioClip> coughSounds;
+        
+        [Header("Defib Animation")]
+        public float defibAniDuration;
+        public float defibAniAmplitude;
+        public float defibAniSpeed;
+
         [Header("Diabetes")]
         public float chanceToHaveDiabetes = 0.40f;
         public float diabetesAttackChance = 160;

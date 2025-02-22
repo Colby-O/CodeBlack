@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d1fe8cb2a8321ff87dde9ff81b44ae, type: 3}
   m_Name: PatientSettings
   m_EditorClassIdentifier: 
-  tickRate: 1
+  tickRate: 2
   stage1TickRate: 2
   stage2TickRate: 1
   stage3TickRate: 0.8
@@ -21,6 +21,22 @@ MonoBehaviour:
   stage6TickRate: 0.5
   stage7TickRate: 0.4
   stage8TickRate: 0.3
+  coughTimeLow: 3
+  coughTimeHigh: 7
+  coughSounds:
+  - {fileID: 8300000, guid: 552551bcd6a6174b0bae48a2e7744114, type: 3}
+  - {fileID: 8300000, guid: c83ed204d06b1172a8448d8999b5e80a, type: 3}
+  - {fileID: 8300000, guid: 78df09f86a39b952b8b793f76e5b9bda, type: 3}
+  - {fileID: 8300000, guid: 3191dc5afa8a23c51816768ee6fe1188, type: 3}
+  - {fileID: 8300000, guid: efa79d54a35d76c8e92cbdf54dc36b85, type: 3}
+  - {fileID: 8300000, guid: 6b3b636df426a446aa19605e2c14fbc0, type: 3}
+  - {fileID: 8300000, guid: 0e8e77f6b57a81853b2e6498803110f7, type: 3}
+  - {fileID: 8300000, guid: 0e4c1efa83c8e523ab3a3bc87787d5bf, type: 3}
+  - {fileID: 8300000, guid: 8356a3a5b0d13cc9a93dc7d824c92fd9, type: 3}
+  - {fileID: 8300000, guid: 3f232f022861fef15a8a5321ae239f1f, type: 3}
+  defibAniDuration: 2.4
+  defibAniAmplitude: 3
+  defibAniSpeed: 150
   chanceToHaveDiabetes: 0.4
   diabetesAttackChance: 1000
   diabetesAttackBloodSugarValue: 330

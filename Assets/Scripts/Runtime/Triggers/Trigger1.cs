@@ -2,6 +2,7 @@ using PlazmaGames.Attribute;
 using PlazmaGames.Core;
 using System.Collections;
 using System.Collections.Generic;
+using CodeBlack.Player;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace CodeBlack.Trigger
         [SerializeField] protected bool _canTriggerMoreThanOnce = false;
 
         [SerializeField, ReadOnly] protected bool _isTriggered = false;
+        [SerializeField, ReadOnly] protected bool _isTriggeredOut = false;
 
         protected abstract void OnEnter();
 
@@ -21,14 +23,18 @@ namespace CodeBlack.Trigger
         {
             return true;
         }
+        protected virtual bool ConditionOut()
+        {
+            return true;
+        }
 
         protected void OnTriggerEnter(Collider other)
         {
-            if (_isTriggered || !Condition()) return;
-
             if (other.gameObject.CompareTag("player"))
             {
+                if (_isTriggered || !Condition()) return;
                 _isTriggered = true;
+                _isTriggeredOut = false;
                 OnEnter();
             }
         }
@@ -37,8 +43,9 @@ namespace CodeBlack.Trigger
         {
             if (other.gameObject.CompareTag("player"))
             {
-                if (_isTriggered && _canTriggerMoreThanOnce) _isTriggered = false;
-                else return;
+                if (_isTriggeredOut || !ConditionOut()) return;
+                if (_canTriggerMoreThanOnce) _isTriggered = false;
+                _isTriggeredOut = true;
                 OnExit();
             }
         }
@@ -46,24 +53,24 @@ namespace CodeBlack.Trigger
 
     public class Trigger1 : Trigger
     {
-        private bool _wasTrueBefore = false;
+        private PlayerController _player;
+
+        private void Awake()
+        {
+            _player = FindObjectOfType<PlayerController>();
+        }
+
+        protected override bool Condition() => _player.IsPushingCart();
+        protected override bool ConditionOut() => _player.IsPushingCart();
 
         protected override void OnEnter()
         {
-            if (CodeBlackGameManager.isPaused)
-            {
-                _wasTrueBefore = true;
-            }
-            else
-            {
-                _wasTrueBefore = false;
-            }
-            CodeBlackGameManager.isPaused = true;
+            CodeBlackGameManager.firstStockCart = true;
         }
 
         protected override void OnExit()
         {
-            if (!_wasTrueBefore) CodeBlackGameManager.isPaused = false;
+            CodeBlackGameManager.firstStockCart = false;
         }
     }
 }

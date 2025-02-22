@@ -66,6 +66,7 @@ namespace CodeBlack.Player
         private bool _isTabeletOpen = false;
 
         private bool _lockMovement;
+        [SerializeField] private GameObject _stockCartText;
 
         //[SerializeField] private float _pushPower = 2.0f;
         //[SerializeField] private float _weight = 6.0f;
@@ -368,6 +369,11 @@ namespace CodeBlack.Player
                 door.Open(transform);
             else if (hit.transform.TryGetComponent(out DoubleDoorHandle handle))
                 handle.Open(transform);
+        }
+
+        private void FixedUpdate()
+        {
+            _stockCartText.SetActive(CodeBlackGameManager.firstStockCart);
         }
 
         private void Update()

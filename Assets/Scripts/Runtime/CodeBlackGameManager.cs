@@ -25,6 +25,7 @@ namespace CodeBlack
         [SerializeField] private AudioMonoSystem _audioMonoSystem;
         
         [SerializeField] private float _timeScale = 5f;
+        public static bool firstStockCart = false;
 
         public static Languages language;
         public static PlayerController player;
@@ -87,7 +88,11 @@ namespace CodeBlack
 
         protected void FixedUpdate()
         {
-            if (!isPaused && (int)_runningTime / (60 * 60) < 8) _runningTime += Time.deltaTime * _timeScale;
+            if (
+                !isPaused &&
+                !(firstStockCart && (int)(_runningTime + Time.deltaTime * _timeScale) / (60 * 60) > 0) &&
+                (int)_runningTime / (60 * 60) < 8
+            ) _runningTime += Time.deltaTime * _timeScale;
         }
     }
 }

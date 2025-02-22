@@ -19,6 +19,9 @@ namespace CodeBlack.UI
 {
     public class SettingsView : View
     {
+        private const float _sensLow = 0.2f;
+        private const float _sensHigh = 40f;
+
         [SerializeField] private TMP_Text _title;
 
         [SerializeField] private Slider _overall;
@@ -72,8 +75,8 @@ namespace CodeBlack.UI
 
         private void Sensivity(float val)
         {
-            _playerSettings.sensitivityX = Mathf.Lerp(12, 48, val);
-            _playerSettings.sensitivityY = Mathf.Lerp(12, 48, val);
+            _playerSettings.sensitivityX = Mathf.Lerp(_sensLow, _sensHigh, val);
+            _playerSettings.sensitivityY = Mathf.Lerp(_sensLow, _sensHigh, val);
         }
 
         private void InvertX(bool val)
@@ -116,7 +119,7 @@ namespace CodeBlack.UI
             _overall.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetOverallVolume();
             _music.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetMusicVolume();
             _sfx.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetSfXVolume();
-            _sensivity.value = Mathf.InverseLerp(12, 48, _playerSettings.sensitivityX);
+            _sensivity.value = Mathf.InverseLerp(_sensLow, _sensHigh, _playerSettings.sensitivityX);
             _invertx.isOn = _playerSettings.invertedViewX;
             _inverty.isOn = !_playerSettings.invertedViewY;
             _language.value = (int)CodeBlackGameManager.language;
@@ -138,7 +141,7 @@ namespace CodeBlack.UI
             _overall.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetOverallVolume();
             _music.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetMusicVolume();
             _sfx.value = GameManager.GetMonoSystem<IAudioMonoSystem>().GetSfXVolume();
-            _sensivity.value = Mathf.InverseLerp(12, 48, _playerSettings.sensitivityX);
+            _sensivity.value = Mathf.InverseLerp(_sensLow, _sensHigh, _playerSettings.sensitivityX);
             _invertx.isOn = _playerSettings.invertedViewX;
             _inverty.isOn = !_playerSettings.invertedViewY;
             _language.value = (int)CodeBlackGameManager.language;
