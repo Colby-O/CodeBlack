@@ -20,7 +20,9 @@ namespace CodeBlack.Inspectables
         [SerializeField] protected GameObject offsetPoint = null;
 
         [SerializeField] protected AudioSource _auidoSource;
-        [SerializeField] protected AudioClip _auidoclip;
+        [SerializeField] protected AudioClip _auidoclipPickup;
+        [SerializeField] protected AudioClip _auidoclipDrop;
+        [SerializeField] protected AudioClip _auidoclipShake;
 
         [SerializeField] protected MeshRenderer _meshRenderer;
         [SerializeField, ColorUsage(true, true)] protected Color _outlineColor;
@@ -30,13 +32,28 @@ namespace CodeBlack.Inspectables
 
         public bool allowInteract = true;
 
+        public AudioSource GetAudioSource()
+        {
+            return _auidoSource;
+        }
+
+        public AudioClip GetShakeClip()
+        {
+            return _auidoclipShake;
+        }
+
+        public AudioClip GetDropClip()
+        {
+            return _auidoclipDrop;
+        }
+
         public virtual bool Interact(Interactor interactor)
         {
             if (!allowInteract) return false;
 
             Inspector inspector = interactor.GetComponent<Inspector>();
             if (inspector.IsExaming) return false;
-            if (_auidoclip != null && _auidoSource != null) _auidoSource.PlayOneShot(_auidoclip);
+            if (_auidoclipPickup != null && _auidoSource != null) _auidoSource.PlayOneShot(_auidoclipPickup);
             PlayerController pc = interactor.GetComponent<PlayerController>();
             pc.ZeroInput();
             inspector.StartExamine(transform, _type, offsetPoint);

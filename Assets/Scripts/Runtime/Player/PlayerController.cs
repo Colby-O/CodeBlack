@@ -22,7 +22,10 @@ namespace CodeBlack.Player
 		[SerializeField] private AudioSource _audioSource;
         [SerializeField] private GameObject _tablet;
 
-		[Header("Body Part References")]
+        [SerializeField] private AudioClip _walkingAC;
+        [SerializeField] private AudioClip _cartAC;
+
+        [Header("Body Part References")]
 		[SerializeField] private GameObject _head;
 
 		[Header("Physics")]
@@ -317,7 +320,9 @@ namespace CodeBlack.Player
 
             _headRotation.y = 0;
             _head.transform.localRotation = Quaternion.Euler(_headRotation);
-            
+
+            _audioSource.Stop();
+
             _movementSpeed = Vector3.zero;
             _movementSpeedVel = Vector3.zero;
         }
@@ -342,6 +347,8 @@ namespace CodeBlack.Player
             
             _characterController.center = new Vector3(_cartForward, 0, 0);
 
+            _audioSource.Stop();
+
             _cart.SetParent(transform, true);
             _movementSpeed = Vector3.zero;
             _movementSpeedVel = Vector3.zero;
@@ -365,7 +372,7 @@ namespace CodeBlack.Player
 
         private void Update()
 		{
-            if (!_characterController.enabled || _isTabeletOpen) return;
+            if (!_characterController.enabled || _isTabeletOpen || !CodeBlackGameManager.hasStarted) return;
 
             ProcessView();
 			ProcessMovement();
@@ -378,6 +385,26 @@ namespace CodeBlack.Player
         private void LateUpdate()
         {
             if (_inCartRange && !IsPushingCart()) GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().SetHint("Hold 'Space' To Push");
+
+            if ((new Vector2(_movementSpeed.x, _movementSpeed.z)).magnitude > 0.01f)
+            {
+                if (IsPushingCart() && !_audioSource.isPlaying)
+                {
+                    _audioSource.Stop();
+                    _audioSource.clip = _cartAC;
+                    _audioSource.Play();
+                }
+                else if (!_audioSource.isPlaying)
+                {
+                    _audioSource.Stop();
+                    _audioSource.clip = _walkingAC;
+                    _audioSource.Play();
+                }
+            }
+            else
+            {
+                _audioSource.Stop();
+            }
         }
     }
 }

@@ -11,6 +11,10 @@ namespace CodeBlack
         private bool _isOpen = false;
         private bool _inProgress = false;
         [SerializeField] float _openSpeed = 1.5f;
+        [SerializeField] AudioSource _audioSource;
+        [SerializeField] AudioClip _openSound;
+        [SerializeField] AudioClip _closeSound;
+        [SerializeField] AudioClip _pushOpenSound;
 
         private void Awake()
         {
@@ -42,6 +46,10 @@ namespace CodeBlack
         {
             if (_isOpen) return;
             if (_inProgress) return;
+
+            if (CodeBlackGameManager.player.IsPushingCart()) _audioSource.PlayOneShot(_pushOpenSound);
+            else _audioSource.PlayOneShot(_openSound);
+
             _isOpen = true;
             _inProgress = true;
             float start = CurrentAngle();
@@ -68,6 +76,9 @@ namespace CodeBlack
         {
             if (!_isOpen) return;
             if (_inProgress) return;
+
+            _audioSource.PlayOneShot(_closeSound);
+
             _inProgress = true;
             _isOpen = false;
             float start = CurrentAngle();

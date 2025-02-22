@@ -15,14 +15,14 @@ public class Trigger2 : Trigger
     [SerializeField] private GameObject _devil;
     [SerializeField] private AudioClip _clip;
 
-    private bool _hasRan;
+    private bool _hasRan = false;
     private bool _hasJumpscared;
 
     private float _timer = 0;
 
     protected override void OnEnter()
     {
-        _hasRan = true;
+        _hasRan = false;
         CodeBlackGameManager.player.SetHeadPostion(_target.position);
         _you.SetAchRasing();
     }
@@ -52,14 +52,14 @@ public class Trigger2 : Trigger
 
     private void Update()
     {
-        if (_you.IsDead() && _hasRan)
+        if (_you.IsDead() && !_hasRan)
         {
             _hasRan = true;
             Debug.Log("Trigger Jumpscare");
             StartCoroutine(Jumpscare());
         }
 
-        if (_hasRan && !_hasJumpscared && _timer > 25f)
+        if (_hasRan && !_hasJumpscared && _timer > 60f)
         {
             RestartGame();
         }
