@@ -1,28 +1,25 @@
-using System.Collections;
-using System.Globalization;
 using UnityEngine;
 using CodeBlack.ECG;
 using TMPro;
-using UnityEngine.Serialization;
 using PlazmaGames.Attribute;
 using CodeBlack.Helpers;
-using Unity.Burst.Intrinsics;
-using UnityEditor;
-using Color = UnityEngine.Color;
 using PlazmaGames.Core;
 using PlazmaGames.Audio;
-using MeshRenderer = UnityEngine.MeshRenderer;
+using PlazmaGames.Runtime.DataStructures;
 
 namespace CodeBlack
 {
     public class Patient : MonoBehaviour
     {
         [SerializeField] private PatientSettings _settings;
-        
+        [SerializeField] private AudioSource _audioSource;
+
         private PatientManager _manager;
         
         private Heart _heart;
         private EKG _ekg;
+
+        [SerializeField] SerializableDictionary<Cure.Type, AudioClip> _sfx;
 
         [SerializeField] private bool _generateRandomInfo = true;
 
@@ -115,6 +112,8 @@ namespace CodeBlack
         private void Awake()
         {
             _startTime = Time.time;
+
+            if (_audioSource == null) _audioSource = GetComponent<AudioSource>();
 
             if (_generateRandomInfo) _name = NameGenerator.GenerateName();
             if (_generateRandomInfo) _age = Random.Range(18, 70).ToString();
@@ -227,6 +226,12 @@ namespace CodeBlack
         public void ApplyCure(Cure.Type cure)
         {
             Debug.Log($"curing with {cure}");
+
+            if (_sfx.ContainsKey( cure ) )
+            {
+                _audioSource.PlayOneShot(_sfx[ cure ] );
+            }
+
             switch (cure)
             {
                 case Cure.Type.Adrenaline:

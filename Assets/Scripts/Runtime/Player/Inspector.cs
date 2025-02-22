@@ -38,6 +38,9 @@ namespace CodeBlack.Player
         private bool _reading = false;
 		private string _text = string.Empty;
 
+		private Vector3 _lastPosition2;
+        private Vector3 _lastPosition1;
+
         public bool IsExaming => _isExaming;
 
         public bool IsMoveable => _isMoveable;
@@ -67,7 +70,10 @@ namespace CodeBlack.Player
 			_origPositions[_examinedObject] = _examinedObject.position;
 			_origRotations[_examinedObject] = _examinedObject.rotation;
 
-			_lastMousePosition = Input.mousePosition;
+			_lastPosition1 = _examinedObject.position;
+			_lastPosition2 = _examinedObject.position;
+
+            _lastMousePosition = Input.mousePosition;
             if (!_isMoveable) Cursor.lockState = CursorLockMode.None;
             if (!_isMoveable) Cursor.visible = true;
 
@@ -99,6 +105,9 @@ namespace CodeBlack.Player
 			
 			if (_isMoveable)
 			{
+                InspectableObject iObj = _examinedObject.GetComponent<InspectableObject>();
+                if (iObj != null && iObj.GetAudioSource() != null) iObj.GetAudioSource().PlayOneShot(iObj.GetDropClip());
+
                 Rigidbody rb = _examinedObject.GetComponent<Rigidbody>();
                 if (rb)
                 {
@@ -127,6 +136,22 @@ namespace CodeBlack.Player
                         else if (Keyboard.current[Key.LeftArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.right, -90f);
                         if (Keyboard.current[Key.UpArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.up, 90f);
                         else if (Keyboard.current[Key.DownArrow].wasPressedThisFrame) _examinedObject.Rotate(Vector3.up, -90f);
+
+                        
+						Vector3 v1 = _lastPosition2 - _lastPosition1;
+                        Vector3 v2 = _lastPosition1 - _examinedObject.position;
+						Vector3 a = v2 - v1;
+
+						if (a.magnitude > 0.05f)
+						{
+                            InspectableObject iObj = _examinedObject.GetComponent<InspectableObject>();
+                            if (iObj != null && iObj.GetAudioSource() != null && !iObj.GetAudioSource().isPlaying) iObj.GetAudioSource().PlayOneShot(iObj.GetShakeClip());
+                        }
+
+                        _lastPosition2 = _lastPosition1;
+						_lastPosition1 = _examinedObject.position;
+
+
                         return;
 
                     }
@@ -149,7 +174,7 @@ namespace CodeBlack.Player
 		{
 			if (_examinedObject == null) return;
 
-			if (_origPositions.ContainsKey(_examinedObject))
+            if (_origPositions.ContainsKey(_examinedObject))
 			{
 				_examinedObject.position = Vector3.Lerp(_examinedObject.position, _origPositions[_examinedObject], 0.2f);
 			}

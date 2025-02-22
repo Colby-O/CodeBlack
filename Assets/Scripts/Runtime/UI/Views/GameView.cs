@@ -1,7 +1,9 @@
+using CodeBlack.Events;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
 using PlazmaGames.UI;
 using TMPro;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 namespace CodeBlack.UI
@@ -10,8 +12,13 @@ namespace CodeBlack.UI
     {
         [SerializeField] private TMP_Text _hint;
 
-        public void SetHint(string hint)
+        float currentPiroty = 0;
+
+        public void SetHint(string hint, int piroty = 0)
         {
+            if (hint == string.Empty) currentPiroty = 0;
+            if (piroty < currentPiroty) return;
+            currentPiroty = piroty;
             if (!GameManager.GetMonoSystem<IUIMonoSystem>().GetView<SettingsView>().EnabledHints) return;
             _hint.text = hint;
         }
@@ -24,12 +31,20 @@ namespace CodeBlack.UI
 
         public override void Init()
         {
-            _hint.text = string.Empty;
+            SetHint(string.Empty);
         }
 
         private void FixedUpdate()
         {
-            _hint.text = string.Empty;
+            SetHint(string.Empty);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                GameManager.EmitEvent(new CBEvents.OpenMenu(true, true, typeof(PauseMenuView)));
+            }
         }
     }
 }

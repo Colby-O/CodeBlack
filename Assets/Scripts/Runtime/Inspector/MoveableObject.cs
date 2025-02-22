@@ -16,7 +16,7 @@ namespace CodeBlack.Inspectables
             if (!allowInteract || CodeBlackGameManager.player.IsPushingCart()) return false;
             Inspector inspector = interactor.GetComponent<Inspector>();
             if (inspector.IsExaming) return false;
-            if (_auidoSource != null && _auidoclip != null) _auidoSource.PlayOneShot(_auidoclip);
+            if (_auidoSource != null && _auidoclipPickup != null) _auidoSource.PlayOneShot(_auidoclipPickup);
             inspector.StartExamine(transform, _type, offsetPoint, string.Empty, true);
             return true;
         }

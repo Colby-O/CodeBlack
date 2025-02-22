@@ -84,7 +84,7 @@ namespace CodeBlack
                 if (interactable != null)
                 {
                     if (!interactable.IsInteractable()) return;
-                    GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().SetHint(interactable.GetHint());
+                    GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().SetHint(interactable.GetHint(), 1);
                     interactable.AddOutline();
                 }
             }
