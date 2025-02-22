@@ -124,7 +124,7 @@ namespace CodeBack.UI {
 
 		private void FixedUpdate()
         {
-            DateTime time = new DateTime(2025, 1, 1, 23, 0, 0);
+            DateTime time = new DateTime(2025, 1, 1, 22, 0, 0);
             time = time.AddSeconds(CodeBlackGameManager.RunningTime());
             _timeText.text = time.ToString("HH:mm");
         }

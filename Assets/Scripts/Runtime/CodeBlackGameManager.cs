@@ -87,7 +87,7 @@ namespace CodeBlack
 
         protected void FixedUpdate()
         {
-            if (!isPaused && (int)_runningTime / (60 * 60) < 7) _runningTime += Time.deltaTime * _timeScale;
+            if (!isPaused && (int)_runningTime / (60 * 60) < 8) _runningTime += Time.deltaTime * _timeScale;
         }
     }
 }

@@ -11,7 +11,12 @@ namespace CodeBlack
         public float tickRate = 1.0f;
         public float stage1TickRate = 1.0f;
         public float stage2TickRate = 0.75f;
-        public float stage3TickRate = 0.5f;
+        public float stage3TickRate = 0.75f;
+        public float stage4TickRate = 0.75f;
+        public float stage5TickRate = 0.75f;
+        public float stage6TickRate = 0.75f;
+        public float stage7TickRate = 0.75f;
+        public float stage8TickRate = 0.75f;
 
         [Header("Diabetes")]
         public float chanceToHaveDiabetes = 0.40f;

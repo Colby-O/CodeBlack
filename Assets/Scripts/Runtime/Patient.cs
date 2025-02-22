@@ -57,6 +57,7 @@ namespace CodeBlack
 
         [Header("Hunger")]
         [SerializeField] private float _hunger = 1.0f;
+        [SerializeField] private float _hungerDepletionRate;
         
         [Header("Blood Sugar")]
         [SerializeField] private float _bloodSugar = 120;
@@ -136,6 +137,7 @@ namespace CodeBlack
 
             _restingHeartRate = Random.Range(_settings.restingHeartRateLow, _settings.restingHeartRateHigh);
             _meanHeartRate = _restingHeartRate;
+            _hungerDepletionRate = ApplyVariance(_settings.hungerDepletionRate, 0.2f);
 
             _lastTick = Time.time;
 
@@ -392,6 +394,9 @@ namespace CodeBlack
             if (_isPaused) return;
             _lastTick = Time.time;
 
+            bool godSave = _god;
+            if (_settings.tickRate > 1) _god = true;
+
             if (IsDeadForReal())
             {
                 _oxygen = 0;
@@ -449,7 +454,7 @@ namespace CodeBlack
                 _meanHeartRate = MapRange(
                     _bloodSugar,
                     _settings.bloodSugarDangerousHigh, _settings.diabetesAttackBloodSugarValue,
-                    _restingHeartRate, 330);
+                    _restingHeartRate, 280);
 
             if (!_god && _tick % 5 == 0)
             {
@@ -521,6 +526,8 @@ namespace CodeBlack
                 _heart.SetJWave(0);
             }
 
+            _god = godSave;
+        
             _tick += 1;
         }
 

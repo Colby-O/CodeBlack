@@ -12,12 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d1fe8cb2a8321ff87dde9ff81b44ae, type: 3}
   m_Name: PatientSettings
   m_EditorClassIdentifier: 
-  tickRate: 1
-  stage1TickRate: 1
-  stage2TickRate: 0.75
-  stage3TickRate: 0.5
+  tickRate: 2
+  stage1TickRate: 2
+  stage2TickRate: 1
+  stage3TickRate: 0.8
+  stage4TickRate: 0.7
+  stage5TickRate: 0.6
+  stage6TickRate: 0.5
+  stage7TickRate: 0.4
+  stage8TickRate: 0.3
   chanceToHaveDiabetes: 0.4
-  diabetesAttackChance: 450
+  diabetesAttackChance: 1000
   diabetesAttackBloodSugarValue: 330
   tooMuchInsulinHungerLevel: 0.2
   normalTemp: 37
@@ -26,13 +31,13 @@ MonoBehaviour:
   tempRecoverRate: 0.5
   tempDangerousLevel: 32
   tempDeadLevel: 25
-  oxygenAttackChance: 1300
+  oxygenAttackChance: 2200
   oxygenDepletionRate: 1
   oxygenRestorationRate: 1.5
   oxygenMinValue: 20
   oxygenDangerousLevel: 65
   oxygenDeathValue: 30
-  hungerDepletionRate: 0.002
+  hungerDepletionRate: 0.0013
   hungerCutoff: 0.7
   bloodSugarHungerLow: 20
   bloodSugarNormalValue: 120
@@ -45,10 +50,10 @@ MonoBehaviour:
   bloodSugarHeartDropRate: 1
   bloodSugarDangerousLow: 80
   bloodSugarDangerousHigh: 200
-  reviveTime: 105
+  reviveTime: 100
   restingHeartRateLow: 70
   restingHeartRateHigh: 130
-  eventProb: 0.006
+  eventProb: 0.002
   caProb: 0.01
   afProb: 0.01
   vfProb: 0.01
