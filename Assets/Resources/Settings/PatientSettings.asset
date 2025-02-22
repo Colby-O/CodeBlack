@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d1fe8cb2a8321ff87dde9ff81b44ae, type: 3}
   m_Name: PatientSettings
   m_EditorClassIdentifier: 
-  tickRate: 0.25
+  tickRate: Infinity
   stage1TickRate: 2
   stage2TickRate: 1
   stage3TickRate: 0.8
@@ -47,7 +47,7 @@ MonoBehaviour:
   tempRecoverRate: 0.5
   tempDangerousLevel: 32
   tempDeadLevel: 25
-  oxygenAttackChance: 2200
+  oxygenAttackChance: 2000
   oxygenDepletionRate: 1
   oxygenRestorationRate: 1.5
   oxygenMinValue: 20
@@ -66,14 +66,14 @@ MonoBehaviour:
   bloodSugarHeartDropRate: 1
   bloodSugarDangerousLow: 80
   bloodSugarDangerousHigh: 200
-  reviveTime: 30
+  reviveTime: 35
   restingHeartRateLow: 70
   restingHeartRateHigh: 130
-  eventProb: 0.0025
-  caProb: 0.024
-  afProb: 0.01
+  eventProb: 0.005
+  caProb: 0.01
+  afProb: 0.02
   vfProb: 0.01
-  blockProb: 0.01
+  blockProb: 0.02
   achRate: 0.05
   crpRate: 0.05
   bnpRate: 10

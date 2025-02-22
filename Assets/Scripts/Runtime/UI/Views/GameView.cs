@@ -43,6 +43,7 @@ namespace CodeBlack.UI
         {
             if (Input.GetKeyDown(KeyCode.Escape) && !CodeBlackGameManager.ending)
             {
+                if (GameManager.HasMonoSystem<IAudioMonoSystem>()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(2, PlazmaGames.Audio.AudioType.Music, true, false);
                 GameManager.EmitEvent(new CBEvents.OpenMenu(true, true, typeof(PauseMenuView)));
             }
         }

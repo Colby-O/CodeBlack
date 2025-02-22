@@ -25,6 +25,7 @@ public class PauseMenuView : View
     {
         _bg.SetActive(false);
         _ekg.SetActive(false);
+        if (GameManager.HasMonoSystem<IAudioMonoSystem>()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(1, PlazmaGames.Audio.AudioType.Music, true, false);
         GameManager.GetMonoSystem<IUIMonoSystem>().Show<GameView>();
     }
 
@@ -47,7 +48,6 @@ public class PauseMenuView : View
         _ekg.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
-        if (GameManager.HasMonoSystem<IAudioMonoSystem>()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(2, PlazmaGames.Audio.AudioType.Music, true, false);
 
         _heart.Revive();
     }
@@ -59,7 +59,6 @@ public class PauseMenuView : View
         CodeBlackGameManager.hasStarted = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        if (GameManager.HasMonoSystem<IAudioMonoSystem>()) GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(1, PlazmaGames.Audio.AudioType.Music, true, false);
     }
 
     public override void Init()

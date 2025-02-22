@@ -316,7 +316,7 @@ MonoBehaviour:
   - id: 1
     name: Main
     audio: {fileID: 8300000, guid: fc8225c5c3f9431499f78199ea2a0d6c, type: 3}
-  - id: 3
+  - id: 2
     name: Pause
     audio: {fileID: 8300000, guid: 00023a7cbff1edd40bd19e26eefb21e3, type: 3}
   - id: 4
@@ -424,7 +424,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -552,7 +552,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

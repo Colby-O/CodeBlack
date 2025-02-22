@@ -392,7 +392,7 @@ namespace CodeBlack.Player
         {
             if (_inCartRange && !IsPushingCart()) GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().SetHint("Hold 'Space' To Push");
 
-            if ((new Vector2(_movementSpeed.x, _movementSpeed.z)).magnitude > 0.01f)
+            if ((new Vector2(_movementSpeed.x, _movementSpeed.z)).magnitude > 0.01f && !_isTabeletOpen && !GameManager.GetMonoSystem<IUIMonoSystem>().GetCurrentViewIs<PauseMenuView>())
             {
                 if (IsPushingCart() && !_audioSource.isPlaying)
                 {

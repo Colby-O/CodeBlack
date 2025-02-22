@@ -14,8 +14,6 @@ public class PAController : MonoBehaviour
     [SerializeField] private AudioClip _everyoneDiedClip;
     [SerializeField] private DoubleDoor _door;
 
-    private bool _isPlaying;
-
     [SerializeField] private GameObject _endingMap;
 
 
@@ -31,7 +29,6 @@ public class PAController : MonoBehaviour
 
     private void AnnouncementDying(Patient p)
     {
-        _isPlaying = true;
         _as.Play();
         StartCoroutine(RepeatAnnouncement(p));
     }
@@ -73,9 +70,6 @@ public class PAController : MonoBehaviour
 
     private void Update()
     {
-        if (!_pm.AnyPatientsFlatLine())
-        { 
-            _as.Stop();
-        }
+        if (!_pm.AnyPatientsFlatLine()) _as.Stop();
     }
 }

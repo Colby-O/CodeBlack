@@ -91,8 +91,7 @@ namespace CodeBlack
         {
             if (
                 !isPaused &&
-                !(firstStockCart && (int)(_runningTime + Time.deltaTime * _timeScale) / (60 * 60) > 0) &&
-                (int)_runningTime / (60 * 60) < 8
+                !(firstStockCart && (int)(_runningTime + Time.deltaTime * _timeScale) / (60 * 60) > 0)
             ) _runningTime += Time.deltaTime * _timeScale;
         }
     }

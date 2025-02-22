@@ -388,7 +388,7 @@ namespace CodeBlack
                     {
                         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio("CorrectTreatment", PlazmaGames.Audio.AudioType.Sfx, false, true);
 
-                        _heart.SetVentricularFibrillation(false);
+                        _heart.SetVentricularFibrillation(false, true, true);
                     }
                     else if (_heart.IsDead())
                     {

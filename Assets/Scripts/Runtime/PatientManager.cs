@@ -57,23 +57,24 @@ namespace CodeBlack {
 
         private void FixedUpdate()
         {
-            if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 7)
-            {
-                if (!_nightEnded) EmitNightEnd();
-                _nightEnded = true;
-                if (!AllPatientsDead())
-                {
-                    _patients.ForEach(p => p.Kill());
-                }
-            }
-            else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 6) _settings.tickRate = _settings.stage8TickRate;
+            //if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 7)
+            //{
+            //    if (!_nightEnded) EmitNightEnd();
+            //    _nightEnded = true;
+            //    if (!AllPatientsDead())
+            //    {
+            //        _patients.ForEach(p => p.Kill());
+            //    }
+            //}
+            if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 6) _settings.tickRate = _settings.stage8TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 5) _settings.tickRate = _settings.stage7TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 4) _settings.tickRate = _settings.stage6TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 3) _settings.tickRate = _settings.stage5TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 2) _settings.tickRate = _settings.stage4TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 1) _settings.tickRate = _settings.stage3TickRate;
             else if ((int)CodeBlackGameManager.RunningTime() / (60 * 60) > 0) _settings.tickRate = _settings.stage2TickRate;
-            
+            else _settings.tickRate = _settings.stage8TickRate / ((int)CodeBlackGameManager.RunningTime() / (60 * 60));
+
         }
     }
 }
