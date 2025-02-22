@@ -108,13 +108,13 @@ namespace CodeBlack
 
         private void TryCough()
         {
-            if ((int)Time.time == (int)_nextCough)
+            if (_nextCough == 0)
             {
-                if (!IsDead() && !IsSick()) _audioSource.PlayOneShot(_settings.coughSounds[Random.Range(0, _settings.coughSounds.Count - 1)]);
                 _nextCough = Time.time + Random.Range(_settings.coughTimeLow, _settings.coughTimeHigh);
             }
-            else if (_nextCough == 0)
+            else if ((int)Time.time == (int)_nextCough)
             {
+                if (!IsDead() && !IsSick()) _audioSource.PlayOneShot(_settings.coughSounds[Random.Range(0, _settings.coughSounds.Count - 1)]);
                 _nextCough = Time.time + Random.Range(_settings.coughTimeLow, _settings.coughTimeHigh);
             }
         }
