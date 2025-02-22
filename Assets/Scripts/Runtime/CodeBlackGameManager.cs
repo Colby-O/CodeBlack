@@ -31,6 +31,7 @@ namespace CodeBlack
         public static PlayerController player;
         public static bool isPaused = true;
         public static bool hasStarted = false;
+        public static bool ending = false;
 
         private static float _runningTime;
         public static float RunningTime() => _runningTime;

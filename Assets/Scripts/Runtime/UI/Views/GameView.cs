@@ -41,7 +41,7 @@ namespace CodeBlack.UI
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) && !CodeBlackGameManager.ending)
             {
                 GameManager.EmitEvent(new CBEvents.OpenMenu(true, true, typeof(PauseMenuView)));
             }

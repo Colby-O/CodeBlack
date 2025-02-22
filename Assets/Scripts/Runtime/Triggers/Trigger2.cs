@@ -21,16 +21,13 @@ public class Trigger2 : Trigger
     private bool _hasRan = false;
 
     private float _timer = 0;
-    private float _timer2 = 0;
 
-    private bool _hasDied = false;
 
 
     protected override void OnEnter()
     {
         _hasRan = true;
-        _hasDied = false;
-        _timer2 = 0;
+        CodeBlackGameManager.ending = true;
         CodeBlackGameManager.player.SetHeadPostion(_target.position);
         _you.SetAchRasing();
         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_final, PlazmaGames.Audio.AudioType.Music, false, false);
@@ -39,12 +36,6 @@ public class Trigger2 : Trigger
     protected override void OnExit()
     {
 
-    }
-
-    private void RestartGame()
-    {
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
     }
 
     private IEnumerator Jumpscare()
@@ -56,26 +47,19 @@ public class Trigger2 : Trigger
         _devil.SetActive(true);
         GameManager.GetMonoSystem<IAudioMonoSystem>().PlayAudio(_clip, PlazmaGames.Audio.AudioType.Sfx, false, true);
         yield return new WaitForSeconds(Random.Range(3f, 6f));
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        Application.Quit();
     }
 
     private void Update()
     {
         if (!_hasRan || !_isTriggeredEnter) return;
 
-        if (_you.IsDead())
-        {
-            _hasDied = true;
-            StartCoroutine(Jumpscare());
-        }
+        _timer += Time.deltaTime;
 
-        if (!_hasDied && _timer2 > _final.length)
+        if (_timer > _final.length)
         {
-            _hasDied = true;
             _heart.CauseCardiacArrest(true);
             StartCoroutine(Jumpscare());
         }
-        else _timer2 += Time.deltaTime;
     }
 }
