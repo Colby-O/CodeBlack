@@ -226,11 +226,7 @@ namespace CodeBlack.Player
 		private void Update()
 		{
             if (!_firstLoop && _isMoveable && _isExaming && Input.GetKeyDown(KeyCode.E)) EndExamine();
-
-            if (_readable && _isExaming && Input.GetKeyDown(KeyCode.R)) StartRead();
-
-			if (_reading && _isExaming && Input.GetKeyDown(KeyCode.Escape)) StopRead();
-			else if (!_reading && _isExaming && Input.GetKeyDown(KeyCode.Escape)) EndExamine();
+			else if (!_firstLoop && _isExaming && Input.GetKeyDown(KeyCode.E)) EndExamine();
 
 			if (_isExaming) Examine();
 			else if (_movingBack && !_isMoveable) CancelExamine();

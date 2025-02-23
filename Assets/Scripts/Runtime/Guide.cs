@@ -44,13 +44,15 @@ namespace CodeBlack
 
         private HeartCondition _last;
 
-        public void Show(HeartCondition condition)
+        public IEnumerator Show(HeartCondition condition)
         {
             _heart.SetHeartRate(58f / 60f);
             _heart.SetAtrialFibrillation(false);
             _heart.SetBlock(0);
             _heart.SetJWave(0);
             _heart.SetVentricularFibrillation(false, false, true);
+
+            _heart.CauseCardiacArrest(true);
 
             foreach (GameObject obj in _cures.Values)
             {
@@ -86,6 +88,7 @@ namespace CodeBlack
                     _traetment.text = $"\n� Heart rate can be raised with Adrenaline.\n\n� If blood sugar is low treat with food.\n\n � If SpO2 is low treat with oxygen.";
                     break;
                 case HeartCondition.HeartBlock:
+                    _heart.SetHeartRate(1f);
                     _heart.SetBlock(1);
 
                     _descripton.text = $"A condition that causes the heart to skip a beat. On the EKG this is seen as a one or two extra p-waves (tiny waves) between beats. A Heart Block is caused by low CRP levels. This condition can cause Cardiac Arrest if left untreated.";
@@ -99,7 +102,7 @@ namespace CodeBlack
                     _traetment.text = $"\n� Atrial Fibrillation can be treated with Calcium Channel Blockers.\n� After the patient must be treated with Digoxin treated to prevent further episodes.";
                     break;
                 case HeartCondition.VentricularFibrillation:
-                    _heart.SetVentricularFibrillation(true);
+                    _heart.SetVentricularFibrillation(true, false, true);
 
                     _descripton.text = $"A condition that causes the heart to contract in a abnormal heart rhythm. This looks like random noise on the EKG. This condition immediately cause a Cardiac Arrest.";
                     _traetment.text = $"\n� Patients with Ventricular Fibrillation can must be revived with a defibrillator and then treated with then with Furosemide to prevent further episodes.";
@@ -119,10 +122,18 @@ namespace CodeBlack
 
             }
 
-            if (_last == HeartCondition.CardiacArrest || _last == HeartCondition.VentricularFibrillation) _heart.Revive();
 
             _ekgTitle.text = $"{condition} EKG";
             _title.text = $"{condition}";
+
+            yield return new WaitForSeconds(1f);
+
+            if (condition != HeartCondition.CardiacArrest && condition != HeartCondition.VentricularFibrillation)
+            {
+
+                _heart.CauseCardiacArrest(false);
+                _heart.Revive();
+            }
 
             _last = condition;
         }
@@ -130,31 +141,29 @@ namespace CodeBlack
         public bool Next()
         {
             _pos++;
-            Show((HeartCondition)_pos);
+            StopAllCoroutines();
+            StartCoroutine(Show((HeartCondition)_pos));
             return _pos != 7;
         }
 
         public bool Back()
         {
             _pos--;
-            Show((HeartCondition)_pos);
+            StopAllCoroutines();
+            StartCoroutine(Show((HeartCondition)_pos));
             return _pos != 0;
         }
 
         private void OnEnable()
         {
-            Show((HeartCondition)_pos);
+            StopAllCoroutines();
+            StartCoroutine(Show((HeartCondition)_pos));
         }
 
         private void Update()
         {
             _bpm.text = ((int)_heart.Bpm()).ToString();
             _bloodPressure.text = $"{(int)_heart.Sbp()}/{(int)_heart.Dbp()}";
-
-            if (_heart.IsDead() && _last != HeartCondition.CardiacArrest && _last != HeartCondition.VentricularFibrillation)
-            {
-                _heart.Revive();
-            }
         }
     }
 }
